@@ -2,19 +2,23 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import DashboardLayout from '@/views/DashboardLayout.vue'
 
 // Dashboard (FMS) views
-import TrainerDashboard1 from '@/views/dashboard/TrainerDashboard1.vue'
-import TrainerDashboard2 from '@/views/dashboard/TrainerDashboard2.vue'
-import TrainerDashboard3 from '@/views/dashboard/TrainerDashboard3.vue'
-import ClientProfile1 from '@/views/dashboard/ClientProfile1.vue'
-import ClientProfile2 from '@/views/dashboard/ClientProfile2.vue'
-import ClientProgress from '@/views/dashboard/ClientProgress.vue'
-import ClientSchedule from '@/views/dashboard/ClientSchedule.vue'
-import MealPlanCreator from '@/views/dashboard/MealPlanCreator.vue'
-import ExerciseLibrary1 from '@/views/dashboard/ExerciseLibrary1.vue'
-import ExerciseLibrary2 from '@/views/dashboard/ExerciseLibrary2.vue'
-import WorkoutBuilder from '@/views/dashboard/WorkoutBuilder.vue'
-import ClientChat from '@/views/dashboard/ClientChat.vue'
+import TrainerDashboard1 from '@/views/trainer/TrainerDashboard1.vue' 
+import TrainerDashboard2 from '@/views/trainer/TrainerDashboard2.vue' 
+import TrainerDashboard3 from '@/views/trainer/TrainerDashboard3.vue' 
+import ClientProfile1 from '@/views/client/ClientProfile1.vue' 
+import ClientProfile2 from '@/views/client/ClientProfile2.vue' 
+import ClientProgress from '@/views/client/ClientProgress.vue' 
+import ClientSchedule from '@/views/client/ClientSchedule.vue' 
+import MealPlanCreator from '@/views/meal/MealPlanCreator.vue' 
+import ExerciseLibrary1 from '@/views/exercise/ExerciseLibrary1.vue' 
+import ExerciseLibrary2 from '@/views/exercise/ExerciseLibrary2.vue'
+import WorkoutBuilder from '@/views/workout/WorkoutBuilder.vue' 
+import ClientChat from '@/views/client/ClientChat.vue' 
 import Analytics from '@/views/dashboard/Analytics.vue'
+import LoginView from '@/views/LoginView.vue'
+import RegisterView from '@/views/RegisterView.vue'
+import RecoveryPasswordView from '@/views/RecoveryPasswordView.vue'
+import MeasurementsView from '@/views/MeasurementsView.vue'
 
 export interface RouteConfig {
   path: string
@@ -24,6 +28,11 @@ export interface RouteConfig {
 }
 
 export const appRoutes: RouteConfig[] = [
+  { path: '/login', label: 'Login', icon: 'login', component: LoginView },
+  { path: '/register', label: 'Register', icon: 'register', component: RegisterView },
+  { path: '/recovery-password', label: 'Recovery Password', icon: 'recovery-password', component: RecoveryPasswordView },
+  { path: '/measurements', label: 'Measurements', icon: 'measurements', component: MeasurementsView },
+  { path: '/dashboard', label: 'Dashboard', icon: 'dashboard', component: DashboardLayout },
   { path: '/', label: 'Nutrition Dashboard', icon: 'nutrition', component: TrainerDashboard1 },
   { path: '/trainer-dashboard', label: 'Trainer Dashboard', icon: 'dashboard', component: TrainerDashboard2 },
   { path: '/client-john', label: 'Client - John Doe', icon: 'person', component: TrainerDashboard3 },
