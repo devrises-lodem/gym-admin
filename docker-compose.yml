@@ -1,0 +1,15 @@
+services:
+  admin-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lodem-admin-app
+    ports:
+      - "8080:5173"
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=development
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=8001
+    restart: unless-stopped
