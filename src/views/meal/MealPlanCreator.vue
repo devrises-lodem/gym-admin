@@ -2,47 +2,21 @@
   <div class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
     <div class="relative flex h-screen w-full flex-col overflow-hidden">
 
-      <header
-        class="flex items-center justify-between border-b border-primary/10 bg-white dark:bg-background-dark px-8 py-3 shrink-0">
-        <div class="flex items-center gap-8">
-          <div class="flex items-center gap-3 text-slate-900 dark:text-slate-100">
-            <div class="size-8 bg-primary rounded-lg flex items-center justify-center text-background-dark">
-              <span class="material-symbols-outlined text-xl">nutrition</span>
-            </div>
-            <h2 class="text-lg font-bold leading-tight tracking-tight">FitPro Manager</h2>
-          </div>
-          <div class="hidden lg:flex items-center gap-6">
-            <a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors"
-              href="#">Dashboard</a>
-            <a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors"
-              href="#">Clients</a>
-            <a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors"
-              href="#">Workouts</a>
-            <a class="text-primary text-sm font-semibold border-b-2 border-primary pb-1" href="#">Meal Plans</a>
-            <a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors"
-              href="#">Settings</a>
-          </div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="relative hidden sm:block">
-            <span
-              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
-            <input
-              class="bg-slate-100 dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary w-64"
-              placeholder="Search clients..." type="text" />
-          </div>
-          <button
-            class="bg-primary hover:bg-primary/90 text-background-dark px-5 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">save</span>
-            Save Plan
-          </button>
-          <div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border-2 border-primary/20"
-            data-alt="User profile avatar placeholder">
-            <img alt="Profile" class="h-full w-full object-cover"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYJgTDyTBPJvdLJCTti3xXsgp0J1NJSyczBEy4_lJghaaq_54RHBPDxy6h9Y1Sr-omwlASyrcYGyU4eSa9TU4r60P6i5W3FAfxGMOOduo8QeDD8WivAveqkNCcDwQA8t2gbJNLRYfm8zA955StXGNdCul3BGfAQGgNB4a2FuK4moGvBynb5cr0L2Y257cxzSWHRDfyznhBAeweuVGvVVrCVNya2q-Z3uznZI0f85Ro9NAXxAHYdyYLA7v7oL_pBMump3ajtyNehz0" />
-          </div>
-        </div>
-      </header>
+      <AppHeader 
+        title="FitPro Manager"
+        header-class="border-primary/10 bg-white dark:bg-background-dark"
+        :show-search="true"
+        search-placeholder="Search clients..."
+        :search-bg-class="'bg-slate-100 dark:bg-slate-800'"
+        :search-icon-class="'text-slate-400'"
+        :search-input-class="'text-sm'"
+        :show-actions="false"
+        :nav-class="'hidden lg:flex'"
+        :nav-items="['Dashboard', 'Clients', 'Workouts', 'Meal Plans', 'Settings']"
+        show-action-button
+        action-text="Save Plan"
+        action-icon="save"
+      />
       <main class="flex flex-1 overflow-hidden">
 
         <aside class="w-80 border-r border-primary/10 bg-white dark:bg-background-dark flex flex-col shrink-0">
@@ -373,5 +347,5 @@
 </template>
 
 <script setup lang="ts">
-// Meal Plan Creator
+import AppHeader from '@/components/AppHeader.vue'
 </script>

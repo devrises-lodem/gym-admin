@@ -1,51 +1,16 @@
 <template>
   <div class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
-    <header
-      class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
-      <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
-        <div class="flex items-center gap-8">
-          <div class="flex items-center gap-2">
-            <div class="bg-primary p-1.5 rounded-lg">
-              <span class="material-symbols-outlined text-background-dark font-bold">monitoring</span>
-            </div>
-            <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">FitBiz <span
-                class="text-primary">Pro</span></h1>
-          </div>
-          <nav class="hidden md:flex items-center gap-6">
-            <a class="text-sm font-semibold text-primary" href="#">Dashboard</a>
-            <a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
-              href="#">Clients</a>
-            <a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
-              href="#">Programs</a>
-            <a class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
-              href="#">Revenue</a>
-          </nav>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="relative hidden lg:block">
-            <span
-              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
-            <input
-              class="pl-10 pr-4 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-full text-sm focus:ring-2 focus:ring-primary w-64"
-              placeholder="Search clients..." type="text" />
-          </div>
-          <button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full relative">
-            <span class="material-symbols-outlined text-slate-600 dark:text-slate-400">notifications</span>
-            <span
-              class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-white dark:border-background-dark"></span>
-          </button>
-          <div class="flex items-center gap-3 pl-2 border-l border-slate-200 dark:border-slate-800">
-            <div class="text-right hidden sm:block">
-              <p class="text-xs font-bold">Coach Marcus</p>
-              <p class="text-[10px] text-slate-500">Premium Trainer</p>
-            </div>
-            <img class="w-9 h-9 rounded-full border border-primary/20 bg-slate-200"
-              data-alt="Profile picture of Coach Marcus"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPQr6flb-ozSdT4Sw7KMAA4tQfmn2agH-rx4pvGlLIMd9LrshMwbvt6c86AAKo_45c6pP9gR9lHlSw2_bDYkLfWBSGMqLDzRkBCcHYmnCLouo5xNOfDJ0ZcdS6ZhWVNhuOPfAk9iQfuGj0qtLBp3ihA4eTeEGz0M0v8XVePY43wvkOmPlPTK02D0gRpA76bLlx8qN2UGStd8UWKvjvzQwNb_9zWtPCverypG7jJEUpQzkz7bsSHUxRmIhCqu4Y_uR64mzPBJnQrFk" />
-          </div>
-        </div>
-      </div>
-    </header>
+    <AppHeader 
+      title="FitBiz Pro"
+      header-class="border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md"
+      :search-bg-class="'bg-slate-100 dark:bg-slate-800'"
+      :search-icon-class="'text-slate-400'"
+      :search-input-class="'text-sm rounded-full'"
+      search-placeholder="Search clients..."
+      :nav-class="'hidden md:flex'"
+      :nav-items="['Dashboard', 'Clients', 'Programs', 'Revenue']"
+      profile-image="https://lh3.googleusercontent.com/aida-public/AB6AXuAOY2NnzG4tDI6JRM8hik0eUEBcBil9ivh0uI9hcg9KlOQt-6LFgVbZn-pLxkqzlqIPCyZrIIJMYNH2d5pwSzwDESrw_jc58GdZ09fuG1AlDyM8GV4AWwDb6eOfcdr2nEROnkOfsIBjyDLgF7gJyPJN8820cUlOWt2vWtkMtf7_UBik0HmgCD1FycC_ZENj8Y1oZv-czV5HB0A6rAnXKUQflKxDY8ykj1WbixgKCqWwzqy95SB2X7Fw3TFeCLCuZxVaJEzTLTV3nb4"
+    />
     <main class="max-w-[1440px] mx-auto px-6 py-8">
 
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
@@ -324,5 +289,5 @@
 </template>
 
 <script setup lang="ts">
-// Business Analytics
+import AppHeader from '@/components/AppHeader.vue'
 </script>

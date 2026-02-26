@@ -2,56 +2,16 @@
   <div class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
     <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
       <div class="layout-container flex h-full grow flex-col">
-        <header
-          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-10 py-3 sticky top-0 z-50">
-          <div class="flex items-center gap-8">
-            <div class="flex items-center gap-4 text-slate-900 dark:text-slate-100">
-              <div class="size-8 bg-primary rounded-lg flex items-center justify-center text-background-dark">
-                <span class="material-symbols-outlined font-bold">exercise</span>
-              </div>
-              <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">FitPro Manager</h2>
-            </div>
-            <label class="flex flex-col min-w-40 h-10 max-w-64">
-              <div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-slate-800">
-                <div class="text-slate-500 dark:text-slate-400 flex items-center justify-center pl-4 rounded-l-lg"
-                  data-icon="search">
-                  <span class="material-symbols-outlined text-[20px]">search</span>
-                </div>
-                <input
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-transparent focus:border-none h-full placeholder:text-slate-500 px-4 pl-2 text-base font-normal"
-                  placeholder="Search clients..." value="" />
-              </div>
-            </label>
-          </div>
-          <div class="flex flex-1 justify-end gap-8">
-            <div class="flex items-center gap-9">
-              <a class="text-slate-900 dark:text-slate-100 text-sm font-medium hover:text-primary transition-colors"
-                href="#">Clients</a>
-              <a class="text-slate-900 dark:text-slate-100 text-sm font-medium hover:text-primary transition-colors"
-                href="#">Workouts</a>
-              <a class="text-slate-900 dark:text-slate-100 text-sm font-medium hover:text-primary transition-colors"
-                href="#">Nutrition</a>
-              <a class="text-slate-900 dark:text-slate-100 text-sm font-medium hover:text-primary transition-colors"
-                href="#">Reports</a>
-              <a class="text-slate-900 dark:text-slate-100 text-sm font-medium hover:text-primary transition-colors"
-                href="#">Settings</a>
-            </div>
-            <div class="flex gap-2">
-              <button
-                class="flex cursor-pointer items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100">
-                <span class="material-symbols-outlined text-[20px]">notifications</span>
-              </button>
-              <button
-                class="flex cursor-pointer items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100">
-                <span class="material-symbols-outlined text-[20px]">account_circle</span>
-              </button>
-            </div>
-            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary"
-              data-alt="Profile picture of trainer"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCYm79FBcHi7KO7hROOBDDSsU_K-n9EGMsCq2b5Szt2SMK-d5UEsXnndirtOxMLemWnzzHZw-2HAGwhdXewoQ90bWinFVXK4DlPVtVIjF_WekyG1hPprd3uQapB8C29SuypSOWIdalFzK02R2JfhVBsxL0a3mWs6yQE9V7TAlpu-BTyQgZyiUR4j-mi43uSgT21GZ2qKeeXw2EG0tIzOrQnxoXZA5yUUbKmMg6ycZCkLUzZgC1K7bQfdfpGIVSy2_k4ZMba-lnSj9o");'>
-            </div>
-          </div>
-        </header>
+        <AppHeader 
+          title="FitPro Manager"
+          header-class="border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark"
+          :search-bg-class="'bg-slate-100 dark:bg-slate-800'"
+          :search-icon-class="'text-slate-500 dark:text-slate-400'"
+          :search-input-class="'text-base placeholder:text-slate-500'"
+          search-placeholder="Search clients..."
+          :show-actions="true"
+          :nav-items="['Clients', 'Workouts', 'Nutrition', 'Reports', 'Settings']"
+        />
         <main class="px-10 py-8 max-w-[1280px] mx-auto w-full">
           <div class="flex flex-wrap gap-2 mb-4">
             <a class="text-primary text-sm font-medium hover:underline" href="#">Clients</a>
@@ -373,5 +333,5 @@
 </template>
 
 <script setup lang="ts">
-// Progress Reports
+import AppHeader from '@/components/AppHeader.vue'
 </script>

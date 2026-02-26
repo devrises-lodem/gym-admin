@@ -3,47 +3,21 @@
     <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
       <div class="layout-container flex h-full grow flex-col">
 
-        <header
-          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 sticky top-0 z-50">
-          <div class="flex items-center gap-8">
-            <div class="flex items-center gap-3 text-slate-900 dark:text-slate-100">
-              <div class="size-8 bg-primary rounded-lg flex items-center justify-center text-background-dark">
-                <span class="material-symbols-outlined font-bold">exercise</span>
-              </div>
-              <h2 class="text-lg font-bold leading-tight tracking-tight">FitTrain Pro</h2>
-            </div>
-            <label class="flex flex-col min-w-64 h-10">
-              <div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-slate-800">
-                <div class="text-slate-500 flex items-center justify-center pl-4">
-                  <span class="material-symbols-outlined text-xl">search</span>
-                </div>
-                <input
-                  class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 h-full placeholder:text-slate-500 px-4 text-sm font-normal"
-                  placeholder="Search exercises, clients..." value="" />
-              </div>
-            </label>
-          </div>
-          <div class="flex flex-1 justify-end gap-6 items-center">
-            <nav class="hidden lg:flex items-center gap-6">
-              <a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors"
-                href="#">Dashboard</a>
-              <a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors"
-                href="#">Clients</a>
-              <a class="text-primary text-sm font-semibold border-b-2 border-primary pb-1" href="#">Exercises</a>
-              <a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors"
-                href="#">Templates</a>
-            </nav>
-            <div class="h-6 w-px bg-slate-200 dark:border-slate-700"></div>
-            <button
-              class="flex min-w-[120px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-primary text-background-dark text-sm font-bold shadow-sm hover:opacity-90 transition-opacity">
-              <span class="truncate">Save Template</span>
-            </button>
-            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary"
-              data-alt="Profile picture of a fitness trainer"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDk7A44l5Dw3ZRf-4OyetbXR2K9JLv3ZkzQUsFnTAb9w9qOpdDHMHxpAE3cqEm25v4Rb1ccPPK4pNeDgX7WDA22EZsGQoKDWvT5OXePuZEJ68g5rFmLjj9E_phcD5I23MPVyrtlbD8hfTIM5QK0h5ERSlPm-F_cnwqqTPWRP7DOOaIjDYV-TDquEEPVQ29MLvq4XXx4j19KlFABbdibGck1FoLGOf0VEXD0Mgjl1i4aWFn2PO-OVDHvSye3v8LjYu4BalTW2rf47GM");'>
-            </div>
-          </div>
-        </header>
+        <AppHeader 
+          title="FitTrain Pro"
+          header-class="border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
+          :search-class="'min-w-64'"
+          :search-bg-class="'bg-slate-100 dark:bg-slate-800'"
+          :search-icon-class="'text-slate-500'"
+          :search-input-class="'placeholder:text-slate-500 text-sm'"
+          search-placeholder="Search exercises, clients..."
+          :show-actions="false"
+          :nav-class="'hidden lg:flex'"
+          :nav-items="['Dashboard', 'Clients', 'Exercises', 'Templates']"
+          profile-image="https://lh3.googleusercontent.com/aida-public/AB6AXuDk7A44l5Dw3ZRf-4OyetbXR2K9JLv3ZkzQUsFnTAb9w9qOpdDHMHxpAE3cqEm25v4Rb1ccPPK4pNeDgX7WDA22EZsGQoKDWvT5OXePuZEJ68g5rFmLjj9E_phcD5I23MPVyrtlbD8hfTIM5QK0h5ERSlPm-F_cnwqqTPWRP7DOOaIjDYV-TDquEEPVQ29MLvq4XXx4j19KlFABbdibGck1FoLGOf0VEXD0Mgjl1i4aWFn2PO-OVDHvSye3v8LjYu4BalTW2rf47GM"
+          show-action-button
+          action-text="Save Template"
+        />
         <main class="flex flex-1 overflow-hidden h-[calc(100vh-64px)]">
 
           <aside class="w-80 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col">
@@ -308,5 +282,5 @@
 </template>
 
 <script setup lang="ts">
-// Workout Builder
+import AppHeader from '@/components/AppHeader.vue'
 </script>
