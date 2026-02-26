@@ -1,9 +1,59 @@
 @import "tailwindcss";
 
+/* Tema único: solo modo claro, sin tema oscuro */
+@custom-variant dark (&:where(.never-matches));
+
 @theme {
-  --color-primary: #19e66f;
-  --color-background-light: #f6f8f7;
-  --color-background-dark: #112118;
+  /* ========== BRAND ========== */
+  --color-primary: #22c55e;          /* Verde principal botones */
+  --color-primary-hover: #16a34a;
+  --color-primary-light: #dcfce7;    /* Fondo verde suave */
+  --color-primary-border: #86efac;   /* Bordes dashed */
+
+  /* ========== BACKGROUNDS ========== */
+  --color-background-page: #f5f7f6;  /* Fondo general */
+  --color-background-light: #f5f7f6; /* Mismo que page (tema claro único) */
+  --color-background-dark: #ffffff;   /* Sidebar/headers y texto sobre primary (siempre claro) */
+  --color-background-sidebar: #eef2f0;
+  --color-background-card: #ffffff;
+  --color-background-muted: #f1f5f4;
+  --color-background-dark-card: #e8f0ec; /* Cards destacadas (tono claro) */
+
+  /* ========== TEXT ========== */
+  --color-text-primary: #0f172a;     /* Títulos */
+  --color-text-secondary: #475569;   /* Texto normal */
+  --color-text-muted: #94a3b8;       /* Placeholder */
+  --color-text-inverse: #ffffff;     /* Texto sobre fondo oscuro */
+
+  /* ========== BORDERS ========== */
+  --color-border-default: #e2e8f0;
+  --color-border-soft: #edf2f1;
+  --color-border-dashed: #bbf7d0;
+
+  /* ========== STATUS TAGS ========== */
+  --color-protein-bg: #dcfce7;
+  --color-protein-text: #166534;
+
+  --color-balanced-bg: #dbeafe;
+  --color-balanced-text: #1e40af;
+
+  --color-fat-bg: #fef3c7;
+  --color-fat-text: #92400e;
+
+  /* ========== METRICS COLORS ========== */
+  --color-protein: #22c55e;
+  --color-carbs: #3b82f6;
+  --color-fat: #f59e0b;
+
+  /* ========== SHADOWS ========== */
+  --shadow-soft: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-card: 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-button: 0 6px 16px rgba(34,197,94,0.25);
+
+  /* ========== RADIUS ========== */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
 }
 
 @import "./base.css";

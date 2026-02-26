@@ -1,34 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@layer base {
+  /* Tema de la aplicación: colores de main.css (solo modo claro) */
+  body {
+    background-color: var(--color-background-page);
+    color: var(--color-text-primary);
+  }
 
-:root {
-  --primary-color: #16A34A;
-  --secondary-color: #f1c40f;
-  --text-color: #333;
-  --border-color: #ccc;
-}
+  button {
+    border-radius: var(--radius-md, 12px);
+    cursor: pointer;
+  }
 
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
+  button:disabled {
+    background-color: var(--color-border-default);
+    cursor: not-allowed;
+  }
 
-button {
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-a {
-  color: var(--primary-color);
-}
-
-button:hover {
-  background-color: var(--secondary-color);
-  cursor: pointer;
-}
-
-button:disabled {
-  background-color: var(--border-color);
-  cursor: not-allowed;
+  a {
+    color: var(--color-primary);
+  }
 }
