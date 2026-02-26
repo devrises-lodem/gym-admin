@@ -1,54 +1,8 @@
 <template>
   <div class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
     <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
-      <div class="layout-container flex h-full grow flex-col">
-
-        <header
-          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-3 bg-white dark:bg-slate-900">
-          <div class="flex items-center gap-8">
-            <div class="flex items-center gap-4 text-primary">
-              <div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
-                <span class="material-symbols-outlined">fitness_center</span>
-              </div>
-              <h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">FitTrain Pro
-              </h2>
-            </div>
-            <label class="flex flex-col min-w-40 !h-10 max-w-64">
-              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
-                <div
-                  class="text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
-                  <span class="material-symbols-outlined text-[20px]">search</span>
-                </div>
-                <input
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-500 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal"
-                  placeholder="Search" value="" />
-              </div>
-            </label>
-          </div>
-          <div class="flex flex-1 justify-end gap-8">
-            <nav class="flex items-center gap-6">
-              <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors"
-                href="#">Dashboard</a>
-              <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors"
-                href="#">Clients</a>
-              <a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">Exercises</a>
-              <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors"
-                href="#">Workouts</a>
-              <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors"
-                href="#">Settings</a>
-            </nav>
-            <div class="flex items-center gap-3">
-              <button
-                class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
-                <span class="material-symbols-outlined text-[20px]">notifications</span>
-              </button>
-              <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary"
-                data-alt="Professional trainer profile avatar"
-                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDeh_awAt5qTIPPBL605cVeskwOTvxf44URrFBTb5lkLX_sL-YD4A5eHFey10bu1_1_oaLYpxUXjl3xAE1aJ5nbJ6zZbcdxSh8Qg8Texu8-nStr43lzL3clLZGZ2fDQjZ7pB1Mi-SDTDZdB3ylPoa-tFkRjFu0wqK1Bx80dJ4AUYot3JBHeMxAaxr38A0buZ9F-KHSV4BuHP2ytirf6fz3R6cswfFI-RWVWou81VhhNHYnXp-kGizqXNfSzCN0CKjDVSjZwurq7ubU");'>
-              </div>
-            </div>
-          </div>
-        </header>
+      <div class="layout-container flex h-full grow flex-col">        
+        
         <main class="flex-1 flex flex-col items-center">
           <div class="layout-content-container flex flex-col max-w-[1200px] w-full px-6 py-10">
 
@@ -59,11 +13,13 @@
                 <p class="text-slate-500 dark:text-slate-400 text-base font-normal">Create, organize, and manage your
                   personalized exercise database.</p>
               </div>
-              <button
-                class="flex items-center justify-center gap-2 rounded-xl h-12 px-6 bg-primary text-slate-900 text-base font-bold transition-transform hover:scale-[1.02]">
-                <span class="material-symbols-outlined">add_circle</span>
-                <span>Upload New Exercise</span>
-              </button>
+              <RouterLink to="/exercise-details/create" class="flex items-center justify-center gap-2 rounded-xl h-12 px-6 bg-primary text-slate-900 text-base font-bold transition-transform hover:scale-[1.02]">
+                <button
+                  class="flex items-center justify-center gap-2 rounded-xl h-12 px-6 bg-primary text-slate-900 text-base font-bold transition-transform hover:scale-[1.02]">
+                  <span class="material-symbols-outlined">add_circle</span>
+                  <span>Upload New Exercise</span>
+                </button>
+              </RouterLink>
             </div>
 
             <div class="flex flex-col gap-6 mb-10">
@@ -283,39 +239,46 @@
 
               <div
                 class="group flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
-                <div class="relative w-full aspect-video bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                  <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
-                    data-alt="Dynamic lunge walking exercise representation"
-                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDThPyvOg6IiojwGlOjjDMNdc5JNDwItS1Wi66nTPRhL86Ukg9CGqNv9te4fcxPvctQhScLn747kWqgrSZ1VQPs3egoIX8u5Crah2XYr53ML3mmIzwPdGnCruqljEgyLlScRFL6W323Fptbv7jxqpxEZHoW-fg1i60kBtqopT3IQn7UQBdWdYEP2vnPi_EWklnTMxsnsHD4I_WJFZnb0ZN2rY0_DSbF5tA5i4NyVDm7yOysa9IoDIU2NA9Qv6gjS2EewSy47GTxb0E");'>
+                <RouterLink to="/exercise-details/edit/1">
+                  <div class="relative w-full aspect-video bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                    <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
+                      data-alt="Dynamic lunge walking exercise representation"
+                      style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDThPyvOg6IiojwGlOjjDMNdc5JNDwItS1Wi66nTPRhL86Ukg9CGqNv9te4fcxPvctQhScLn747kWqgrSZ1VQPs3egoIX8u5Crah2XYr53ML3mmIzwPdGnCruqljEgyLlScRFL6W323Fptbv7jxqpxEZHoW-fg1i60kBtqopT3IQn7UQBdWdYEP2vnPi_EWklnTMxsnsHD4I_WJFZnb0ZN2rY0_DSbF5tA5i4NyVDm7yOysa9IoDIU2NA9Qv6gjS2EewSy47GTxb0E");'>
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                      <span
+                        class="material-symbols-outlined text-white text-5xl opacity-0 group-hover:opacity-100 transition-opacity">play_circle</span>
+                    </div>
                   </div>
-                  <div
-                    class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                    <span
-                      class="material-symbols-outlined text-white text-5xl opacity-0 group-hover:opacity-100 transition-opacity">play_circle</span>
-                  </div>
-                </div>
-                <div class="p-4 flex flex-col gap-2">
-                  <div class="flex justify-between items-start">
-                    <h3 class="text-slate-900 dark:text-slate-100 text-base font-bold">Walking Lunges</h3>
-                    <span
-                      class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary">more_vert</span>
-                  </div>
-                  <p class="text-slate-500 dark:text-slate-400 text-xs font-medium">Strength • Legs • Glutes</p>
-                  <div class="mt-2 flex items-center gap-2">
-                    <span
-                      class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] rounded">Optional
-                      Weights</span>
-                    <span
-                      class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] rounded">Intermediate</span>
-                  </div>
-                </div>
+                  <div class="p-4 flex flex-col gap-2">
+                    <div class="flex justify-between items-start">
+                      <h3 class="text-slate-900 dark:text-slate-100 text-base font-bold">Walking Lunges</h3>
+                      <span
+                        class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary">more_vert</span>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs font-medium">Strength • Legs • Glutes</p>
+                    <div class="mt-2 flex items-center gap-2">
+                      <span
+                        class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] rounded">Optional
+                        Weights</span>
+                      <span
+                        class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] rounded">Intermediate</span>
+                    </div>
+                  </div>                  
+                </RouterLink>
               </div>
 
               <div
-                class="group flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl aspect-[4/5] hover:border-primary hover:bg-primary/5 transition-all cursor-pointer">
-                <span
-                  class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-700 group-hover:text-primary mb-2">add_circle</span>
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">New Exercise</p>
+                class="group flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+                <RouterLink to="/exercise-details/create">
+                  <div
+                    class="group flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl aspect-[4/5] hover:border-primary hover:bg-primary/5 transition-all cursor-pointer">
+                    <span
+                      class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-700 group-hover:text-primary mb-2">add_circle</span>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">New Exercise</p>
+                  </div>
+                </RouterLink>
               </div>
             </div>
           </div>

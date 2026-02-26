@@ -38,8 +38,7 @@
               id="email"
               v-model="form.email"
               type="email"
-              placeholder="Enter your email"
-              required
+              placeholder="Enter your email"              
               :class="[
                 'w-full pl-10 sm:pl-11 pr-3 py-2.5 sm:py-3 border rounded-lg text-sm transition-all duration-200 bg-indigo-50 text-gray-900',
                 errors.email ? 'border-red-500' : 'border-indigo-400 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-300 focus:ring-opacity-20'
@@ -57,8 +56,7 @@
               id="password"
               v-model="form.password"
               :type="showPassword ? 'text' : 'password'"
-              placeholder="**********"
-              required
+              placeholder="**********"              
               :class="[
                 'w-full pl-10 sm:pl-11 pr-10 py-2.5 sm:py-3 border rounded-lg text-sm transition-all duration-200 bg-indigo-50 text-gray-900',
                 errors.password ? 'border-red-500' : 'border-indigo-400 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-300 focus:ring-opacity-20'
@@ -123,7 +121,7 @@ const validateForm = () => {
   errors.email = ''
   errors.password = ''
 
-  if (!form.email) {
+  /*if (!form.email) {
     errors.email = 'Email is required'
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
     errors.email = 'Please enter a valid email'
@@ -135,7 +133,8 @@ const validateForm = () => {
     errors.password = 'Password must be at least 6 characters'
   }
 
-  return !errors.email && !errors.password
+  return !errors.email && !errors.password*/
+  return true
 }
 
 const handleLogin = async () => {
@@ -152,7 +151,7 @@ const handleLogin = async () => {
     console.log('Login successful:', form)
 
     // Redirect to dashboard or home
-    router.push('/measurements')
+    router.push('/')
   } catch (error) {
     console.error('Login failed:', error)
     errors.password = 'Invalid email or password'

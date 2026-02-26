@@ -40,7 +40,7 @@
         v-for="route in appRoutes"
         :key="route.path"
         :to="route.path"
-        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
+        class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
         :class="[
           route.path === currentPath
             ? 'bg-primary text-slate-900'
@@ -54,8 +54,8 @@
     </nav>
 
     <div class="flex flex-col gap-2">
-      <RouterLink to="/login" class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium 
-      transition-colors hover:bg-slate-600 hover:text-white" @click="$emit('close')">
+      <RouterLink to="/login" class="group flex items-center gap-3 px-3 py-2.5 text-sm font-medium 
+      transition-colors hover:bg-primary hover:text-white" @click="$emit('close')">
         <span class="material-symbols-outlined text-xl group-hover:text-white">logout</span>
         <span class="text-black font-bold group-hover:text-white">Logout</span>
       </RouterLink>
