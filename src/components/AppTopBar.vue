@@ -6,7 +6,7 @@
     <button class="text-slate-300 hover:text-white transition-colors" @click="$emit('menu-click')">
       <span class="material-symbols-outlined">menu</span>
     </button>
-    <span class="text-white font-semibold">{{ currentLabel }}</span>
+    <span class="text-black font-semibold">{{ currentLabel }}</span>
   </header>
 </template>
 

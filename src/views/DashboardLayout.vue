@@ -5,6 +5,7 @@
     <div class="flex-1 flex flex-col overflow-hidden">
       <AppTopBar @menu-click="sidebarOpen = true" />
 
+
       <main class="flex-1 overflow-auto">
         <RouterView />
       </main>

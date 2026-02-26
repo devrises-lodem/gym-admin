@@ -24,7 +24,7 @@
         <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
           <span class="text-slate-900 font-bold text-sm">G</span>
         </div>
-        <span class="text-white font-bold text-lg tracking-tight">GYM Admin</span>
+        <span class="text-black font-bold text-lg tracking-tight">GYM Admin</span>
       </div>
       <button
         class="lg:hidden text-slate-400 hover:text-white transition-colors"
@@ -35,7 +35,7 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="flex-1 overflow-y-auto custom-scrollbar p-4 flex flex-col gap-1">
+    <nav class="flex-1 overflow-y-auto custom-scrollbar p-4 flex flex-col gap-1 ">
       <RouterLink
         v-for="route in appRoutes"
         :key="route.path"
@@ -44,15 +44,22 @@
         :class="[
           route.path === currentPath
             ? 'bg-primary text-slate-900'
-            : 'text-slate-400 hover:text-white hover:bg-slate-800',
+            : 'text-slate-400 hover:text-white hover:bg-slate-600',
         ]"
         @click="$emit('close')"
       >
-        <span class="material-symbols-outlined text-xl">{{ route.icon }}</span>
-        <span>{{ route.label }}</span>
+        <span class="material-symbols-outlined text-xl group-hover:text-white">{{ route.icon }}</span>
+        <span class="text-black font-bold group-hover:text-white">{{ route.label }}</span>
       </RouterLink>
     </nav>
 
+    <div class="flex flex-col gap-2">
+      <RouterLink to="/login" class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium 
+      transition-colors hover:bg-slate-600 hover:text-white" @click="$emit('close')">
+        <span class="material-symbols-outlined text-xl group-hover:text-white">logout</span>
+        <span class="text-black font-bold group-hover:text-white">Logout</span>
+      </RouterLink>
+    </div>
     <!-- Footer -->
     <div class="px-6 py-4 border-t border-primary/20 shrink-0">
       <p class="text-xs text-slate-600">GYM Admin · Fitness Management</p>
