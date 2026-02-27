@@ -6,43 +6,44 @@
 
         <div class="flex-1 flex flex-col gap-8">
           <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-primary/10 shadow-sm">
-              <div class="flex justify-between items-start mb-2">
-                <p class="text-slate-500 text-sm font-medium">Current Weight</p>
-                <span class="material-symbols-outlined text-red-500 text-sm">trending_down</span>
-              </div>
-              <p class="text-2xl font-bold">185.4 lbs</p>
-              <p class="text-xs text-red-500 mt-1">-2.1 lbs this month</p>
-            </div>
-            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-primary/10 shadow-sm">
-              <div class="flex justify-between items-start mb-2">
-                <p class="text-slate-500 text-sm font-medium">Body Fat</p>
-                <span class="material-symbols-outlined text-primary text-sm">trending_down</span>
-              </div>
-              <p class="text-2xl font-bold">17.2 %</p>
-              <p class="text-xs text-primary mt-1">-0.8% since start</p>
-            </div>
-            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-primary/10 shadow-sm">
-              <div class="flex justify-between items-start mb-2">
-                <p class="text-slate-500 text-sm font-medium">Consistency</p>
-                <span class="material-symbols-outlined text-primary text-sm">verified</span>
-              </div>
-              <p class="text-2xl font-bold">94 %</p>
-              <p class="text-xs text-primary mt-1">+5% from last week</p>
-            </div>
+            <StatsCard
+              label="Current Weight"
+              value="185.4 lbs"
+              trendIcon="trending_down"
+              trendIconClass="text-red-500"
+              subtitle="-2.1 lbs this month"
+              subtitleClass="text-red-500"
+              borderClass="border-primary/10"
+            />
+            <StatsCard
+              label="Body Fat"
+              value="17.2 %"
+              trendIcon="trending_down"
+              trendIconClass="text-primary"
+              subtitle="-0.8% since start"
+              subtitleClass="text-primary"
+              borderClass="border-primary/10"
+            />
+            <StatsCard
+              label="Consistency"
+              value="94 %"
+              trendIcon="verified"
+              trendIconClass="text-primary"
+              subtitle="+5% from last week"
+              subtitleClass="text-primary"
+              borderClass="border-primary/10"
+            />
           </section>
-          <section class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-primary/10 shadow-sm">
-            <div class="flex justify-between items-center mb-6">
-              <div>
-                <h3 class="text-lg font-bold">Progress Chart</h3>
-                <p class="text-sm text-slate-500">Weight &amp; Strength Volume (Last 30 Days)</p>
-              </div>
+
+          <SectionCard title="Progress Chart" subtitle="Weight &amp; Strength Volume (Last 30 Days)"
+            borderClass="border-primary/10">
+            <template #header-actions>
               <div class="flex gap-2">
                 <button class="px-3 py-1 text-xs font-bold rounded-lg bg-primary/10 text-primary">Weight</button>
                 <button
                   class="px-3 py-1 text-xs font-bold rounded-lg hover:bg-primary/5 transition-colors">Volume</button>
               </div>
-            </div>
+            </template>
             <div class="h-48 w-full flex items-end gap-2 px-2">
               <div class="flex-1 bg-primary/20 rounded-t-sm h-1/2"></div>
               <div class="flex-1 bg-primary/20 rounded-t-sm h-[60%]"></div>
@@ -63,17 +64,17 @@
               <span>Jan 20</span>
               <span>Jan 30</span>
             </div>
-          </section>
-          <section class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-primary/10 shadow-sm">
-            <div class="flex justify-between items-center mb-6">
-              <h3 class="text-lg font-bold">Assign Routine</h3>
+          </SectionCard>
+
+          <SectionCard title="Assign Routine" borderClass="border-primary/10">
+            <template #header-actions>
               <div class="flex gap-4">
                 <div class="flex items-center gap-2 border border-primary/20 rounded-lg px-3 py-1.5">
                   <span class="material-symbols-outlined text-sm text-primary">calendar_today</span>
                   <span class="text-xs font-medium">Feb 15 - Feb 21</span>
                 </div>
               </div>
-            </div>
+            </template>
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
               <div>
                 <h4 class="text-sm font-bold mb-4 flex items-center gap-2">
@@ -81,29 +82,11 @@
                   Workout Templates
                 </h4>
                 <div class="flex flex-col gap-3">
-                  <div
+                  <div v-for="template in workoutTemplates" :key="template.name"
                     class="group flex items-center justify-between p-4 rounded-xl border border-primary/10 hover:border-primary/40 bg-primary/5 cursor-pointer transition-all">
                     <div>
-                      <p class="font-bold text-sm">Hypertrophy - Upper Focus</p>
-                      <p class="text-xs text-slate-500">60 min • 8 Exercises • Intermediate</p>
-                    </div>
-                    <button
-                      class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">add_circle</button>
-                  </div>
-                  <div
-                    class="group flex items-center justify-between p-4 rounded-xl border border-primary/10 hover:border-primary/40 bg-primary/5 cursor-pointer transition-all">
-                    <div>
-                      <p class="font-bold text-sm">Strength - Squat Heavy</p>
-                      <p class="text-xs text-slate-500">75 min • 5 Exercises • Advanced</p>
-                    </div>
-                    <button
-                      class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">add_circle</button>
-                  </div>
-                  <div
-                    class="group flex items-center justify-between p-4 rounded-xl border border-primary/10 hover:border-primary/40 bg-primary/5 cursor-pointer transition-all">
-                    <div>
-                      <p class="font-bold text-sm">Full Body Conditioning</p>
-                      <p class="text-xs text-slate-500">45 min • 12 Exercises • Beginner</p>
+                      <p class="font-bold text-sm">{{ template.name }}</p>
+                      <p class="text-xs text-slate-500">{{ template.details }}</p>
                     </div>
                     <button
                       class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">add_circle</button>
@@ -120,27 +103,15 @@
                   Assigned for Week
                 </h4>
                 <div class="flex flex-col gap-3">
-                  <div
+                  <div v-for="assigned in assignedWorkouts" :key="assigned.day"
                     class="flex items-center gap-4 bg-white dark:bg-slate-800 p-3 rounded-lg shadow-sm border-l-4 border-primary">
                     <div class="flex flex-col items-center justify-center min-w-[40px]">
-                      <span class="text-[10px] font-bold text-slate-400">MON</span>
-                      <span class="text-lg font-bold">15</span>
+                      <span class="text-[10px] font-bold text-slate-400">{{ assigned.day }}</span>
+                      <span class="text-lg font-bold">{{ assigned.date }}</span>
                     </div>
                     <div class="flex-1">
-                      <p class="text-xs font-bold">Hypertrophy - Upper Focus</p>
-                      <p class="text-[10px] text-slate-500">Assigned by Trainer</p>
-                    </div>
-                    <button class="material-symbols-outlined text-slate-400 hover:text-red-500 text-sm">close</button>
-                  </div>
-                  <div
-                    class="flex items-center gap-4 bg-white dark:bg-slate-800 p-3 rounded-lg shadow-sm border-l-4 border-primary">
-                    <div class="flex flex-col items-center justify-center min-w-[40px]">
-                      <span class="text-[10px] font-bold text-slate-400">WED</span>
-                      <span class="text-lg font-bold">17</span>
-                    </div>
-                    <div class="flex-1">
-                      <p class="text-xs font-bold">Leg Power - Max Strength</p>
-                      <p class="text-[10px] text-slate-500">Custom Modification</p>
+                      <p class="text-xs font-bold">{{ assigned.name }}</p>
+                      <p class="text-[10px] text-slate-500">{{ assigned.note }}</p>
                     </div>
                     <button class="material-symbols-outlined text-slate-400 hover:text-red-500 text-sm">close</button>
                   </div>
@@ -151,40 +122,36 @@
                 </div>
               </div>
             </div>
-          </section>
-          <section class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-primary/10 shadow-sm">
-            <h3 class="text-lg font-bold mb-6">Recent Activity</h3>
+          </SectionCard>
+
+          <SectionCard title="Recent Activity" borderClass="border-primary/10">
             <div class="space-y-6">
-              <div class="flex gap-4">
-                <div class="size-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
-                </div>
-                <div>
-                  <p class="text-sm"><span class="font-bold">Completed Workout:</span> Pull Day Hypertrophy</p>
-                  <p class="text-xs text-slate-500">2 hours ago • Duration: 58m • Volume: 12,450 lbs</p>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <div class="size-8 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-blue-500 text-sm">scale</span>
-                </div>
-                <div>
-                  <p class="text-sm"><span class="font-bold">Logged Weight:</span> 185.4 lbs</p>
-                  <p class="text-xs text-slate-500">6 hours ago • New personal low</p>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <div class="size-8 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-amber-500 text-sm">comment</span>
-                </div>
-                <div>
-                  <p class="text-sm"><span class="font-bold">Workout Note:</span> "Feeling slight fatigue in right
-                    shoulder during bench press."</p>
-                  <p class="text-xs text-slate-500">Yesterday at 5:14 PM</p>
-                </div>
-              </div>
+              <ActivityItem
+                icon="check_circle"
+                iconBgClass="bg-primary/20"
+                iconClass="text-primary"
+                boldTitle="Completed Workout:"
+                description="Pull Day Hypertrophy"
+                timestamp="2 hours ago • Duration: 58m • Volume: 12,450 lbs"
+              />
+              <ActivityItem
+                icon="scale"
+                iconBgClass="bg-blue-500/20"
+                iconClass="text-blue-500"
+                boldTitle="Logged Weight:"
+                description="185.4 lbs"
+                timestamp="6 hours ago • New personal low"
+              />
+              <ActivityItem
+                icon="comment"
+                iconBgClass="bg-amber-500/20"
+                iconClass="text-amber-500"
+                boldTitle="Workout Note:"
+                description="&quot;Feeling slight fatigue in right shoulder during bench press.&quot;"
+                timestamp="Yesterday at 5:14 PM"
+              />
             </div>
-          </section>
+          </SectionCard>
         </div>
       </main>
     </div>
@@ -193,4 +160,18 @@
 
 <script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue'
+import StatsCard from '@/components/ui/StatsCard.vue'
+import SectionCard from '@/components/ui/SectionCard.vue'
+import ActivityItem from '@/components/ui/ActivityItem.vue'
+
+const workoutTemplates = [
+  { name: 'Hypertrophy - Upper Focus', details: '60 min • 8 Exercises • Intermediate' },
+  { name: 'Strength - Squat Heavy', details: '75 min • 5 Exercises • Advanced' },
+  { name: 'Full Body Conditioning', details: '45 min • 12 Exercises • Beginner' }
+]
+
+const assignedWorkouts = [
+  { day: 'MON', date: '15', name: 'Hypertrophy - Upper Focus', note: 'Assigned by Trainer' },
+  { day: 'WED', date: '17', name: 'Leg Power - Max Strength', note: 'Custom Modification' }
+]
 </script>

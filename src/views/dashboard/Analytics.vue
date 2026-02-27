@@ -1,6 +1,6 @@
 <template>
   <div class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
-    <AppHeader 
+    <AppHeader
       title="FitBiz Pro"
       header-class="border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md"
       :search-bg-class="'bg-slate-100 dark:bg-slate-800'"
@@ -9,16 +9,15 @@
       search-placeholder="Search clients..."
       :nav-class="'hidden md:flex'"
       :nav-items="['Dashboard', 'Clients', 'Programs', 'Revenue']"
-      profile-image="https://lh3.googleusercontent.com/aida-public/AB6AXuAOY2NnzG4tDI6JRM8hik0eUEBcBil9ivh0uI9hcg9KlOQt-6LFgVbZn-pLxkqzlqIPCyZrIIJMYNH2d5pwSzwDESrw_jc58GdZ09fuG1AlDyM8GV4AWwDb6eOfcdr2nEROnkOfsIBjyDLgF7gJyPJN8820cUlOWt2vWtkMtf7_UBik0HmgCD1FycC_ZENj8Y1oZv-czV5HB0A6rAnXKUQflKxDY8ykj1WbixgKCqWwzqy95SB2X7Fw3TFeCLCuZxVaJEzTLTV3nb4"
+      :profile-image="profileImage"
     />
     <main class="max-w-[1440px] mx-auto px-6 py-8">
-
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-        <div>
-          <h2 class="text-3xl font-black tracking-tight mb-1">Business Analytics</h2>
-          <p class="text-slate-500 dark:text-slate-400">Reviewing your fitness empire's performance for Oct 2023.</p>
-        </div>
-        <div class="flex gap-2">
+      <PageHeader
+        title="Business Analytics"
+        subtitle="Reviewing your fitness empire's performance for Oct 2023."
+        titleClass="text-3xl"
+      >
+        <template #actions>
           <button
             class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors">
             <span class="material-symbols-outlined text-sm">calendar_today</span>
@@ -29,59 +28,26 @@
             <span class="material-symbols-outlined text-sm">download</span>
             Export Report
           </button>
-        </div>
-      </div>
+        </template>
+      </PageHeader>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div class="flex justify-between items-start mb-4">
-            <div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-              <span class="material-symbols-outlined text-blue-500">groups</span>
-            </div>
-            <span
-              class="text-primary text-xs font-bold flex items-center gap-1 bg-primary/10 px-2 py-0.5 rounded-full">+5.2%</span>
-          </div>
-          <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Clients</p>
-          <h3 class="text-2xl font-bold mt-1">124</h3>
-        </div>
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div class="flex justify-between items-start mb-4">
-            <div class="p-2 bg-primary/10 rounded-lg">
-              <span class="material-symbols-outlined text-primary">autorenew</span>
-            </div>
-            <span
-              class="text-primary text-xs font-bold flex items-center gap-1 bg-primary/10 px-2 py-0.5 rounded-full">+2.1%</span>
-          </div>
-          <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Active Subscriptions</p>
-          <h3 class="text-2xl font-bold mt-1">98</h3>
-        </div>
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div class="flex justify-between items-start mb-4">
-            <div class="p-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg">
-              <span class="material-symbols-outlined text-emerald-500">payments</span>
-            </div>
-            <span
-              class="text-primary text-xs font-bold flex items-center gap-1 bg-primary/10 px-2 py-0.5 rounded-full">+12.4%</span>
-          </div>
-          <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Monthly Revenue</p>
-          <h3 class="text-2xl font-bold mt-1">$12,450</h3>
-        </div>
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div class="flex justify-between items-start mb-4">
-            <div class="p-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-              <span class="material-symbols-outlined text-orange-500">task_alt</span>
-            </div>
-            <span
-              class="text-red-500 text-xs font-bold flex items-center gap-1 bg-red-100 dark:bg-red-900/20 px-2 py-0.5 rounded-full">-0.8%</span>
-          </div>
-          <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Avg. Client Adherence</p>
-          <h3 class="text-2xl font-bold mt-1">88.4%</h3>
-        </div>
+        <StatsCard
+          v-for="stat in statsData"
+          :key="stat.label"
+          :label="stat.label"
+          :value="stat.value"
+          :icon="stat.icon"
+          :iconBgClass="stat.iconBgClass"
+          :iconColorClass="stat.iconColorClass"
+          :badge="stat.badge"
+          :badgeClass="stat.badgeClass"
+        />
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
         <div class="lg:col-span-2 space-y-8">
+          <!-- Client Growth Chart -->
           <div
             class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
             <div class="flex items-center justify-between mb-6">
@@ -98,7 +64,6 @@
               </div>
             </div>
             <div class="h-64 relative">
-
               <svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 800 200">
                 <defs>
                   <lineargradient id="gradient" x1="0" x2="0" y1="0" y2="1">
@@ -113,86 +78,42 @@
                 <circle cx="800" cy="40" fill="#19e66f" r="5"></circle>
               </svg>
               <div class="flex justify-between mt-4 text-xs font-medium text-slate-400 uppercase tracking-widest">
-                <span>May</span>
-                <span>Jun</span>
-                <span>Jul</span>
-                <span>Aug</span>
-                <span>Sep</span>
-                <span>Oct</span>
+                <span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span>
               </div>
             </div>
           </div>
 
-          <div
-            class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <div class="flex items-center justify-between mb-6">
-              <h4 class="text-lg font-bold">Engagement Score Leaderboard</h4>
+          <!-- Engagement Leaderboard -->
+          <SectionCard title="Engagement Score Leaderboard" headerClass="p-6 pb-0 mb-6"
+            contentClass="p-6 pt-0" borderClass="border-slate-200 dark:border-slate-800">
+            <template #header-actions>
               <button class="text-primary text-sm font-semibold hover:underline">View All</button>
-            </div>
+            </template>
             <div class="space-y-4">
-
-              <div
-                class="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+              <div v-for="client in leaderboard" :key="client.name"
+                class="flex items-center justify-between p-3 rounded-lg"
+                :class="client.containerClass">
                 <div class="flex items-center gap-3">
-                  <img class="w-10 h-10 rounded-full" data-alt="Portrait of Sarah J."
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuArysIMVXXNl-MFCyUtXW8ae5ELzRpoVHoCnFRPgLcZMfiA48TBgiQixXCkwntyw16_vB9qUdQz6BeaiQkU_PHnjdM_0U09oFHg2vbWAnuSt4uTGoxXcubkY9hn4MeksQ-Ymi7Ja2PkdG_SV3o8Uf-aVk49PS4oTiMj7hV1qaLwVkYNFtG0gDsfaeuZQuxK2smfhzMkqEh6HY3hrl0ana9XK4Vsi1t9du2YgQFw9vbo-DdFXax0XcUceVg8gj_Uoh-OKV2o7zFDBu0" />
+                  <img class="w-10 h-10 rounded-full" :class="client.imgClass" :data-alt="client.alt" :src="client.img" />
                   <div>
-                    <p class="font-bold text-sm">Sarah Jenkins</p>
-                    <p class="text-xs text-slate-500">Powerlifting Phase 2</p>
+                    <p class="font-bold text-sm">{{ client.name }}</p>
+                    <p class="text-xs text-slate-500" :class="client.subtitleClass">{{ client.program }}</p>
                   </div>
                 </div>
                 <div class="text-right">
-                  <div class="flex items-center gap-1 text-primary">
-                    <span class="material-symbols-outlined text-sm">trending_up</span>
-                    <span class="text-sm font-black">98</span>
+                  <div class="flex items-center gap-1" :class="client.scoreClass">
+                    <span class="material-symbols-outlined text-sm">{{ client.trendIcon }}</span>
+                    <span class="text-sm font-black">{{ client.score }}</span>
                   </div>
-                  <p class="text-[10px] text-slate-400">Streak: 24 Days</p>
-                </div>
-              </div>
-
-              <div
-                class="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-                <div class="flex items-center gap-3">
-                  <img class="w-10 h-10 rounded-full" data-alt="Portrait of Mike R."
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcZ-LnxFhpk7HgA4I_PJh-Ta8Jq164VrvVm47PBbdxATp6n5H58IbCrWX8PnxpFzWtCqTwBMX_3h36_I8iwjimE0hL1pNNwYMbfx3L1XtAEGfks_LS4FOxQWnrPPEtBXrWMkImxcBBn628CfwTxisZMltlPNAnG4s7QM5GOkQlRGw4PxOYB04040iv-c8EGJvAbLQk_bgaUW5KgyfDktbZHbz4yJCbFXLQFQhc6xghyvF0HSmaXzTryy3zDpElE9QHmTu3_I52Xsg" />
-                  <div>
-                    <p class="font-bold text-sm">Mike Ross</p>
-                    <p class="text-xs text-slate-500">Fat Loss &amp; Mobility</p>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <div class="flex items-center gap-1 text-primary">
-                    <span class="material-symbols-outlined text-sm">trending_up</span>
-                    <span class="text-sm font-black">92</span>
-                  </div>
-                  <p class="text-[10px] text-slate-400">Streak: 12 Days</p>
-                </div>
-              </div>
-
-              <div
-                class="flex items-center justify-between p-3 rounded-lg border border-red-100 dark:border-red-900/30 bg-red-50/30 dark:bg-red-900/10">
-                <div class="flex items-center gap-3">
-                  <img class="w-10 h-10 rounded-full opacity-70" data-alt="Portrait of Alex M."
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmnuOkq48tK-CDV_jjtQw4-LT3YX8sxtP6_vd-WegSkChrwRBTdu9W2fmfhZjuSeNIH_s2x2K8AKnvjbwaAUBR9t7_lZ-oolPGM89p64PsNsYP-TxyzaScFlJ50h774QnROdES_eEEMtxM0gOVvIhqkAEjwbpEo9qVmL10lBdixoCQgTo9qnAY1YMTMdoJIWrvmKefHITUnnV7tI3nrzfdtyp1B-rcpvd-ovZ7KhNXaPaTcd3g-w7FLBPGX4Q1d3PjRhZr_9WuEnU" />
-                  <div>
-                    <p class="font-bold text-sm">Alex Murphy</p>
-                    <p class="text-xs text-slate-500 italic">Inactive 5+ days</p>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <div class="flex items-center gap-1 text-red-500">
-                    <span class="material-symbols-outlined text-sm">trending_down</span>
-                    <span class="text-sm font-black">42</span>
-                  </div>
-                  <p class="text-[10px] text-red-500 font-bold uppercase tracking-tighter">Churn Risk</p>
+                  <p class="text-[10px]" :class="client.metaClass">{{ client.meta }}</p>
                 </div>
               </div>
             </div>
-          </div>
+          </SectionCard>
         </div>
 
         <div class="lg:col-span-1 space-y-8">
-
+          <!-- Muscle Group Focus (unique chart, kept inline) -->
           <div
             class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
             <h4 class="text-lg font-bold mb-6">Muscle Group Focus</h4>
@@ -214,80 +135,88 @@
               </div>
             </div>
             <div class="mt-4 grid grid-cols-2 gap-2">
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-primary"></span>
-                <span class="text-xs font-medium">Legs (45%)</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-primary/60"></span>
-                <span class="text-xs font-medium">Back (20%)</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-primary/40"></span>
-                <span class="text-xs font-medium">Chest (20%)</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-primary/20"></span>
-                <span class="text-xs font-medium">Arms (15%)</span>
+              <div v-for="muscle in muscleGroups" :key="muscle.label" class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full" :class="muscle.dotClass"></span>
+                <span class="text-xs font-medium">{{ muscle.label }}</span>
               </div>
             </div>
           </div>
 
-          <div
-            class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <h4 class="text-lg font-bold mb-6">Recent Milestones</h4>
+          <!-- Recent Milestones -->
+          <SectionCard title="Recent Milestones" headerClass="p-6 pb-0 mb-6"
+            contentClass="p-6 pt-0" borderClass="border-slate-200 dark:border-slate-800">
             <div class="space-y-6">
-              <div class="flex gap-4">
-                <div class="relative">
-                  <div
-                    class="w-10 h-10 rounded-full bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-500 border border-amber-100 dark:border-amber-900/30">
-                    <span class="material-symbols-outlined text-xl">workspace_premium</span>
-                  </div>
-                  <div class="absolute -bottom-4 left-1/2 w-[1px] h-6 bg-slate-200 dark:border-slate-800"></div>
-                </div>
-                <div>
-                  <p class="text-sm font-bold">New Squat 1RM</p>
-                  <p class="text-xs text-slate-500">David G. reached 140kg (Personal Best)</p>
-                  <span class="text-[10px] text-slate-400 uppercase font-bold mt-1 inline-block">2 hours ago</span>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <div class="relative">
-                  <div
-                    class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
-                    <span class="material-symbols-outlined text-xl">event_available</span>
-                  </div>
-                  <div class="absolute -bottom-4 left-1/2 w-[1px] h-6 bg-slate-200 dark:border-slate-800"></div>
-                </div>
-                <div>
-                  <p class="text-sm font-bold">Consistency Streak</p>
-                  <p class="text-xs text-slate-500">Emily W. completed 30 days of workouts!</p>
-                  <span class="text-[10px] text-slate-400 uppercase font-bold mt-1 inline-block">5 hours ago</span>
-                </div>
-              </div>
-              <div class="flex gap-4">
-                <div
-                  class="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 border border-blue-100 dark:border-blue-900/30">
-                  <span class="material-symbols-outlined text-xl">fitness_center</span>
-                </div>
-                <div>
-                  <p class="text-sm font-bold">Body Fat Milestone</p>
-                  <p class="text-xs text-slate-500">James L. reached sub-15% body fat goal.</p>
-                  <span class="text-[10px] text-slate-400 uppercase font-bold mt-1 inline-block">Yesterday</span>
-                </div>
-              </div>
+              <ActivityItem
+                v-for="(milestone, idx) in milestones"
+                :key="milestone.title"
+                :icon="milestone.icon"
+                :iconBgClass="milestone.iconBgClass"
+                :iconClass="milestone.iconClass"
+                :boldTitle="milestone.title"
+                :description="milestone.description"
+                :timestamp="milestone.timestamp"
+                :showConnector="idx < milestones.length - 1"
+              />
             </div>
-          </div>
+          </SectionCard>
         </div>
       </div>
     </main>
-    <footer class="mt-12 py-8 border-t border-slate-200 dark:border-slate-800 text-center">
-      <p class="text-slate-500 dark:text-slate-400 text-sm">© 2023 FitBiz Analytics Platform. Powered by Training
-        Science.</p>
-    </footer>
+    <AppFooter appName="FitBiz Analytics Platform" />
   </div>
 </template>
 
 <script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
+import PageHeader from '@/components/ui/PageHeader.vue'
+import StatsCard from '@/components/ui/StatsCard.vue'
+import SectionCard from '@/components/ui/SectionCard.vue'
+import ActivityItem from '@/components/ui/ActivityItem.vue'
+
+const profileImage = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAOY2NnzG4tDI6JRM8hik0eUEBcBil9ivh0uI9hcg9KlOQt-6LFgVbZn-pLxkqzlqIPCyZrIIJMYNH2d5pwSzwDESrw_jc58GdZ09fuG1AlDyM8GV4AWwDb6eOfcdr2nEROnkOfsIBjyDLgF7gJyPJN8820cUlOWt2vWtkMtf7_UBik0HmgCD1FycC_ZENj8Y1oZv-czV5HB0A6rAnXKUQflKxDY8ykj1WbixgKCqWwzqy95SB2X7Fw3TFeCLCuZxVaJEzTLTV3nb4'
+
+const statsData = [
+  { label: 'Total Clients', value: '124', icon: 'groups', iconBgClass: 'bg-blue-50 dark:bg-blue-900/20', iconColorClass: 'text-blue-500', badge: '+5.2%', badgeClass: 'text-primary bg-primary/10' },
+  { label: 'Active Subscriptions', value: '98', icon: 'autorenew', iconBgClass: 'bg-primary/10', iconColorClass: 'text-primary', badge: '+2.1%', badgeClass: 'text-primary bg-primary/10' },
+  { label: 'Monthly Revenue', value: '$12,450', icon: 'payments', iconBgClass: 'bg-emerald-50 dark:bg-emerald-900/20', iconColorClass: 'text-emerald-500', badge: '+12.4%', badgeClass: 'text-primary bg-primary/10' },
+  { label: 'Avg. Client Adherence', value: '88.4%', icon: 'task_alt', iconBgClass: 'bg-orange-50 dark:bg-orange-900/20', iconColorClass: 'text-orange-500', badge: '-0.8%', badgeClass: 'text-red-500 bg-red-100 dark:bg-red-900/20' }
+]
+
+const leaderboard = [
+  {
+    name: 'Sarah Jenkins', program: 'Powerlifting Phase 2', score: '98', trendIcon: 'trending_up',
+    meta: 'Streak: 24 Days', alt: 'Portrait of Sarah J.',
+    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuArysIMVXXNl-MFCyUtXW8ae5ELzRpoVHoCnFRPgLcZMfiA48TBgiQixXCkwntyw16_vB9qUdQz6BeaiQkU_PHnjdM_0U09oFHg2vbWAnuSt4uTGoxXcubkY9hn4MeksQ-Ymi7Ja2PkdG_SV3o8Uf-aVk49PS4oTiMj7hV1qaLwVkYNFtG0gDsfaeuZQuxK2smfhzMkqEh6HY3hrl0ana9XK4Vsi1t9du2YgQFw9vbo-DdFXax0XcUceVg8gj_Uoh-OKV2o7zFDBu0',
+    containerClass: 'bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800',
+    imgClass: '', subtitleClass: '', scoreClass: 'text-primary', metaClass: 'text-slate-400'
+  },
+  {
+    name: 'Mike Ross', program: 'Fat Loss & Mobility', score: '92', trendIcon: 'trending_up',
+    meta: 'Streak: 12 Days', alt: 'Portrait of Mike R.',
+    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDcZ-LnxFhpk7HgA4I_PJh-Ta8Jq164VrvVm47PBbdxATp6n5H58IbCrWX8PnxpFzWtCqTwBMX_3h36_I8iwjimE0hL1pNNwYMbfx3L1XtAEGfks_LS4FOxQWnrPPEtBXrWMkImxcBBn628CfwTxisZMltlPNAnG4s7QM5GOkQlRGw4PxOYB04040iv-c8EGJvAbLQk_bgaUW5KgyfDktbZHbz4yJCbFXLQFQhc6xghyvF0HSmaXzTryy3zDpElE9QHmTu3_I52Xsg',
+    containerClass: 'bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800',
+    imgClass: '', subtitleClass: '', scoreClass: 'text-primary', metaClass: 'text-slate-400'
+  },
+  {
+    name: 'Alex Murphy', program: 'Inactive 5+ days', score: '42', trendIcon: 'trending_down',
+    meta: 'Churn Risk', alt: 'Portrait of Alex M.',
+    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAmnuOkq48tK-CDV_jjtQw4-LT3YX8sxtP6_vd-WegSkChrwRBTdu9W2fmfhZjuSeNIH_s2x2K8AKnvjbwaAUBR9t7_lZ-oolPGM89p64PsNsYP-TxyzaScFlJ50h774QnROdES_eEEMtxM0gOVvIhqkAEjwbpEo9qVmL10lBdixoCQgTo9qnAY1YMTMdoJIWrvmKefHITUnnV7tI3nrzfdtyp1B-rcpvd-ovZ7KhNXaPaTcd3g-w7FLBPGX4Q1d3PjRhZr_9WuEnU',
+    containerClass: 'border border-red-100 dark:border-red-900/30 bg-red-50/30 dark:bg-red-900/10',
+    imgClass: 'opacity-70', subtitleClass: 'italic', scoreClass: 'text-red-500', metaClass: 'text-red-500 font-bold uppercase tracking-tighter'
+  }
+]
+
+const muscleGroups = [
+  { label: 'Legs (45%)', dotClass: 'bg-primary' },
+  { label: 'Back (20%)', dotClass: 'bg-primary/60' },
+  { label: 'Chest (20%)', dotClass: 'bg-primary/40' },
+  { label: 'Arms (15%)', dotClass: 'bg-primary/20' }
+]
+
+const milestones = [
+  { icon: 'workspace_premium', iconBgClass: 'bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-900/30', iconClass: 'text-amber-500', title: 'New Squat 1RM', description: 'David G. reached 140kg (Personal Best)', timestamp: '2 hours ago' },
+  { icon: 'event_available', iconBgClass: 'bg-primary/10 border border-primary/20', iconClass: 'text-primary', title: 'Consistency Streak', description: 'Emily W. completed 30 days of workouts!', timestamp: '5 hours ago' },
+  { icon: 'fitness_center', iconBgClass: 'bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30', iconClass: 'text-blue-500', title: 'Body Fat Milestone', description: 'James L. reached sub-15% body fat goal.', timestamp: 'Yesterday' }
+]
 </script>

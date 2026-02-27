@@ -33,87 +33,46 @@
             </button>
           </div>
         </header>
+
         <section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-          <div
-            class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-              <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Calories</p>
-              <span class="material-symbols-outlined text-primary">local_fire_department</span>
-            </div>
-            <div class="flex items-end gap-2">
-              <p class="text-3xl font-bold">1,850</p>
-              <p class="text-sm text-slate-500 mb-1">/ 2,200 kcal</p>
-            </div>
-            <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full mt-4 overflow-hidden">
-              <div class="bg-primary h-full rounded-full" style="width: 84%"></div>
-            </div>
-          </div>
-          <div
-            class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-              <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Proteins</p>
-              <span class="material-symbols-outlined text-blue-500">egg</span>
-            </div>
-            <div class="flex items-end gap-2">
-              <p class="text-3xl font-bold">145g</p>
-              <p class="text-sm text-slate-500 mb-1">/ 180g</p>
-            </div>
-            <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full mt-4 overflow-hidden">
-              <div class="bg-blue-500 h-full rounded-full" style="width: 80%"></div>
-            </div>
-          </div>
-          <div
-            class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-              <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Carbs</p>
-              <span class="material-symbols-outlined text-orange-500">bakery_dining</span>
-            </div>
-            <div class="flex items-end gap-2">
-              <p class="text-3xl font-bold">160g</p>
-              <p class="text-sm text-slate-500 mb-1">/ 200g</p>
-            </div>
-            <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full mt-4 overflow-hidden">
-              <div class="bg-orange-500 h-full rounded-full" style="width: 80%"></div>
-            </div>
-          </div>
-          <div
-            class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-              <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Fats</p>
-              <span class="material-symbols-outlined text-yellow-500">opacity</span>
-            </div>
-            <div class="flex items-end gap-2">
-              <p class="text-3xl font-bold">48g</p>
-              <p class="text-sm text-slate-500 mb-1">/ 65g</p>
-            </div>
-            <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full mt-4 overflow-hidden">
-              <div class="bg-yellow-500 h-full rounded-full" style="width: 73%"></div>
-            </div>
-          </div>
+          <StatsCard
+            v-for="macro in macroData"
+            :key="macro.label"
+            :label="macro.label"
+            :value="macro.value"
+            :subtitle="macro.target"
+            subtitleClass="text-slate-500"
+            :trendIcon="macro.icon"
+            :trendIconClass="macro.iconClass"
+            :progress="macro.progress"
+            :progressBarClass="macro.progressBarClass"
+            borderClass="border-slate-200 dark:border-slate-800"
+            valueClass="text-3xl"
+          />
         </section>
+
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-2 flex flex-col gap-6">
+            <!-- Search Food -->
             <div
               class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-              <div class="relative">
-                <span
-                  class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-                <input
-                  class="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-900 transition-all"
-                  placeholder="Search food database or templates..." type="text" />
-              </div>
+              <SearchInput
+                placeholder="Search food database or templates..."
+                bgClass="bg-slate-50 dark:bg-slate-800"
+                paddingClass="pl-12 pr-4 py-3"
+                inputClass="text-sm focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-900 transition-all"
+                iconClass="text-slate-400"
+                iconWrapperClass="pl-4"
+              />
               <div class="flex gap-2 mt-4">
-                <span
-                  class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium cursor-pointer hover:bg-primary/20 transition-colors">Quick
-                  Add: Chicken Breast</span>
-                <span
-                  class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium cursor-pointer hover:bg-primary/20 transition-colors">Recent:
-                  Greek Yogurt</span>
-                <span
-                  class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium cursor-pointer hover:bg-primary/20 transition-colors">Template:
-                  High Protein Oats</span>
+                <span v-for="tag in quickTags" :key="tag"
+                  class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium cursor-pointer hover:bg-primary/20 transition-colors">
+                  {{ tag }}
+                </span>
               </div>
             </div>
+
+            <!-- Today's Log (unique UI, kept mostly inline) -->
             <div
               class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
               <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
@@ -127,73 +86,26 @@
                 </div>
               </div>
               <div class="flex flex-col">
-                <div class="p-6 border-b border-slate-100 dark:border-slate-800">
+                <div v-for="meal in meals" :key="meal.name"
+                  class="p-6 border-b border-slate-100 dark:border-slate-800">
                   <div class="flex justify-between items-center mb-4">
                     <div class="flex items-center gap-2">
-                      <span class="material-symbols-outlined text-primary">wb_sunny</span>
-                      <h3 class="font-bold">Breakfast</h3>
-                      <span class="text-xs text-slate-400 ml-2">420 kcal • P: 32g, C: 45g, F: 12g</span>
+                      <span class="material-symbols-outlined text-primary">{{ meal.icon }}</span>
+                      <h3 class="font-bold">{{ meal.name }}</h3>
+                      <span class="text-xs text-slate-400 ml-2">{{ meal.summary }}</span>
                     </div>
                     <button class="text-primary hover:text-primary/80"><span
                         class="material-symbols-outlined">add_circle</span></button>
                   </div>
                   <div class="flex flex-col gap-3">
-                    <div class="flex items-center justify-between text-sm group">
+                    <div v-for="item in meal.items" :key="item.name"
+                      class="flex items-center justify-between text-sm group">
                       <div class="flex flex-col">
-                        <span class="font-medium">Oatmeal with Blueberries &amp; Whey</span>
-                        <span class="text-xs text-slate-500">1 bowl (350g)</span>
+                        <span class="font-medium">{{ item.name }}</span>
+                        <span class="text-xs text-slate-500">{{ item.portion }}</span>
                       </div>
                       <div class="flex items-center gap-4">
-                        <span class="font-medium">350 kcal</span>
-                        <button
-                          class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"><span
-                            class="material-symbols-outlined text-sm">delete</span></button>
-                      </div>
-                    </div>
-                    <div class="flex items-center justify-between text-sm group">
-                      <div class="flex flex-col">
-                        <span class="font-medium">Black Coffee</span>
-                        <span class="text-xs text-slate-500">1 cup (250ml)</span>
-                      </div>
-                      <div class="flex items-center gap-4">
-                        <span class="font-medium">0 kcal</span>
-                        <button
-                          class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"><span
-                            class="material-symbols-outlined text-sm">delete</span></button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="p-6 border-b border-slate-100 dark:border-slate-800">
-                  <div class="flex justify-between items-center mb-4">
-                    <div class="flex items-center gap-2">
-                      <span class="material-symbols-outlined text-primary">lunch_dining</span>
-                      <h3 class="font-bold">Lunch</h3>
-                      <span class="text-xs text-slate-400 ml-2">680 kcal • P: 55g, C: 60g, F: 18g</span>
-                    </div>
-                    <button class="text-primary hover:text-primary/80"><span
-                        class="material-symbols-outlined">add_circle</span></button>
-                  </div>
-                  <div class="flex flex-col gap-3">
-                    <div class="flex items-center justify-between text-sm group">
-                      <div class="flex flex-col">
-                        <span class="font-medium">Grilled Chicken Breast &amp; Quinoa</span>
-                        <span class="text-xs text-slate-500">200g chicken, 150g quinoa</span>
-                      </div>
-                      <div class="flex items-center gap-4">
-                        <span class="font-medium">620 kcal</span>
-                        <button
-                          class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"><span
-                            class="material-symbols-outlined text-sm">delete</span></button>
-                      </div>
-                    </div>
-                    <div class="flex items-center justify-between text-sm group">
-                      <div class="flex flex-col">
-                        <span class="font-medium">Mixed Green Salad</span>
-                        <span class="text-xs text-slate-500">1 bowl with lemon dressing</span>
-                      </div>
-                      <div class="flex items-center gap-4">
-                        <span class="font-medium">60 kcal</span>
+                        <span class="font-medium">{{ item.calories }}</span>
                         <button
                           class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"><span
                             class="material-symbols-outlined text-sm">delete</span></button>
@@ -213,44 +125,22 @@
               </div>
             </div>
           </div>
+
           <div class="flex flex-col gap-6">
-            <div
-              class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-              <h3 class="font-bold mb-6 flex justify-between items-center">
-                <span>Calorie Adherence</span>
+            <!-- Calorie Adherence Chart -->
+            <SectionCard title="Calorie Adherence" borderClass="border-slate-200 dark:border-slate-800">
+              <template #header-actions>
                 <span class="text-xs font-medium text-slate-400 uppercase tracking-widest">Last 7 Days</span>
-              </h3>
+              </template>
               <div class="flex items-end justify-between h-40 gap-2 px-2">
-                <div class="flex flex-col items-center gap-2 flex-1">
-                  <div class="w-full bg-primary rounded-t-sm" style="height: 90%"></div>
-                  <span class="text-[10px] text-slate-400">M</span>
-                </div>
-                <div class="flex flex-col items-center gap-2 flex-1">
-                  <div class="w-full bg-primary rounded-t-sm" style="height: 100%"></div>
-                  <span class="text-[10px] text-slate-400">T</span>
-                </div>
-                <div class="flex flex-col items-center gap-2 flex-1">
-                  <div class="w-full bg-red-400 rounded-t-sm" style="height: 120%"></div>
-                  <span class="text-[10px] text-slate-400">W</span>
-                </div>
-                <div class="flex flex-col items-center gap-2 flex-1">
-                  <div class="w-full bg-primary rounded-t-sm" style="height: 85%"></div>
-                  <span class="text-[10px] text-slate-400">T</span>
-                </div>
-                <div class="flex flex-col items-center gap-2 flex-1">
-                  <div class="w-full bg-primary rounded-t-sm" style="height: 95%"></div>
-                  <span class="text-[10px] text-slate-400">F</span>
-                </div>
-                <div class="flex flex-col items-center gap-2 flex-1">
-                  <div class="w-full bg-primary/40 rounded-t-sm" style="height: 40%"></div>
-                  <span class="text-[10px] text-slate-400">S</span>
-                </div>
-                <div class="flex flex-col items-center gap-2 flex-1">
-                  <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm" style="height: 0%"></div>
-                  <span class="text-[10px] text-slate-400">S</span>
+                <div v-for="bar in weeklyBars" :key="bar.label" class="flex flex-col items-center gap-2 flex-1">
+                  <div class="w-full rounded-t-sm" :class="bar.barClass" :style="{ height: bar.height }"></div>
+                  <span class="text-[10px] text-slate-400">{{ bar.label }}</span>
                 </div>
               </div>
-            </div>
+            </SectionCard>
+
+            <!-- Weight Trend -->
             <div
               class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <h3 class="font-bold mb-6 flex justify-between items-center">
@@ -263,10 +153,7 @@
                   <circle cx="100" cy="50" fill="#19e66f" r="4"></circle>
                 </svg>
                 <div class="absolute bottom-0 w-full flex justify-between text-[10px] text-slate-400 px-1">
-                  <span>Week 1</span>
-                  <span>Week 2</span>
-                  <span>Week 3</span>
-                  <span>Week 4</span>
+                  <span>Week 1</span><span>Week 2</span><span>Week 3</span><span>Week 4</span>
                 </div>
               </div>
               <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
@@ -280,6 +167,8 @@
                 </div>
               </div>
             </div>
+
+            <!-- Coaching Note -->
             <div class="bg-primary/5 border border-primary/20 p-6 rounded-xl">
               <h3 class="font-bold mb-3 flex items-center gap-2 text-sm">
                 <span class="material-symbols-outlined text-primary text-sm">sticky_note_2</span>
@@ -298,5 +187,43 @@
 </template>
 
 <script setup lang="ts">
-// Nutrition Dashboard
+import StatsCard from '@/components/ui/StatsCard.vue'
+import SearchInput from '@/components/ui/SearchInput.vue'
+import SectionCard from '@/components/ui/SectionCard.vue'
+
+const macroData = [
+  { label: 'Calories', value: '1,850', target: '/ 2,200 kcal', icon: 'local_fire_department', iconClass: 'text-primary', progress: 84, progressBarClass: 'bg-primary' },
+  { label: 'Proteins', value: '145g', target: '/ 180g', icon: 'egg', iconClass: 'text-blue-500', progress: 80, progressBarClass: 'bg-blue-500' },
+  { label: 'Carbs', value: '160g', target: '/ 200g', icon: 'bakery_dining', iconClass: 'text-orange-500', progress: 80, progressBarClass: 'bg-orange-500' },
+  { label: 'Fats', value: '48g', target: '/ 65g', icon: 'opacity', iconClass: 'text-yellow-500', progress: 73, progressBarClass: 'bg-yellow-500' }
+]
+
+const quickTags = ['Quick Add: Chicken Breast', 'Recent: Greek Yogurt', 'Template: High Protein Oats']
+
+const meals = [
+  {
+    name: 'Breakfast', icon: 'wb_sunny', summary: '420 kcal • P: 32g, C: 45g, F: 12g',
+    items: [
+      { name: 'Oatmeal with Blueberries & Whey', portion: '1 bowl (350g)', calories: '350 kcal' },
+      { name: 'Black Coffee', portion: '1 cup (250ml)', calories: '0 kcal' }
+    ]
+  },
+  {
+    name: 'Lunch', icon: 'lunch_dining', summary: '680 kcal • P: 55g, C: 60g, F: 18g',
+    items: [
+      { name: 'Grilled Chicken Breast & Quinoa', portion: '200g chicken, 150g quinoa', calories: '620 kcal' },
+      { name: 'Mixed Green Salad', portion: '1 bowl with lemon dressing', calories: '60 kcal' }
+    ]
+  }
+]
+
+const weeklyBars = [
+  { label: 'M', barClass: 'bg-primary', height: '90%' },
+  { label: 'T', barClass: 'bg-primary', height: '100%' },
+  { label: 'W', barClass: 'bg-red-400', height: '120%' },
+  { label: 'T', barClass: 'bg-primary', height: '85%' },
+  { label: 'F', barClass: 'bg-primary', height: '95%' },
+  { label: 'S', barClass: 'bg-primary/40', height: '40%' },
+  { label: 'S', barClass: 'bg-slate-100 dark:bg-slate-800', height: '0%' }
+]
 </script>
