@@ -94,24 +94,83 @@
         </div>
       </div>
 
-      <!-- Balance -->
+      <!-- Balance muscular -->
       <div v-if="insights.muscleList.length">
         <p class="text-[10px] font-bold uppercase tracking-wider text-text-muted mb-2.5">Balance muscular</p>
-        <div class="space-y-2">
+        <div class="space-y-2.5">
           <div
             v-for="pair in balancePairs"
             :key="pair.label"
-            class="flex items-center gap-2 p-2.5 rounded-xl bg-background-muted border border-border-soft"
+            class="rounded-xl border overflow-hidden transition-all"
+            :class="cardClass(pair.status)"
           >
-            <span class="text-base shrink-0">{{ pair.icon }}</span>
-            <div class="flex-1 min-w-0">
-              <p class="text-xs font-semibold text-text-primary">{{ pair.label }}</p>
-              <p class="text-[11px] mt-0.5" :class="statusClass(pair.status)">
-                {{ statusLabel(pair.status) }}
-                <span class="text-text-muted ml-1">({{ pair.v1 }}:{{ pair.v2 }})</span>
-              </p>
+            <!-- Header row -->
+            <div class="flex items-center gap-2 px-3 py-2.5">
+              <span class="text-base shrink-0">{{ pair.icon }}</span>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold text-text-primary">{{ pair.label }}</p>
+                <p class="text-[11px] font-semibold mt-0.5" :class="statusClass(pair.status)">
+                  {{ statusLabel(pair.status) }}
+                  <span class="font-mono text-text-muted ml-1 font-normal">({{ pair.v1 }}:{{ pair.v2 }})</span>
+                </p>
+              </div>
+              <div class="w-2 h-2 rounded-full shrink-0" :class="dotClass(pair.status)" />
             </div>
-            <div class="w-2 h-2 rounded-full shrink-0" :class="dotClass(pair.status)" />
+
+            <!-- Visual ratio bar -->
+            <div class="px-3 pb-2">
+              <div class="flex h-1.5 rounded-full overflow-hidden gap-px bg-white/60">
+                <div
+                  class="h-full rounded-l-full transition-all duration-500"
+                  :class="pair.status === 'ok' ? 'bg-primary' : pair.status === 'warn' ? 'bg-amber-400' : 'bg-red-400'"
+                  :style="{ width: ratioWidth(pair.v1, pair.v2) + '%' }"
+                />
+                <div
+                  class="h-full rounded-r-full bg-slate-300 transition-all duration-500"
+                  :style="{ width: (100 - ratioWidth(pair.v1, pair.v2)) + '%' }"
+                />
+              </div>
+              <div class="flex justify-between mt-1">
+                <span class="text-[9px] text-text-muted font-medium">{{ pair.name1 }}</span>
+                <span class="text-[9px] text-text-muted font-medium">{{ pair.name2 }}</span>
+              </div>
+            </div>
+
+            <!-- Description + recommendation (solo si no es ok/neutral) -->
+            <div
+              v-if="pair.status === 'warn' || pair.status === 'over'"
+              class="mx-3 mb-3 p-2.5 rounded-lg border"
+              :class="pair.status === 'warn'
+                ? 'bg-amber-50 border-amber-200'
+                : 'bg-red-50 border-red-200'"
+            >
+              <!-- Diagnosis -->
+              <div class="flex gap-1.5 mb-1.5">
+                <span
+                  class="material-symbols-outlined text-[13px] mt-0.5 shrink-0"
+                  :class="pair.status === 'warn' ? 'text-amber-500' : 'text-red-500'"
+                >{{ pair.status === 'warn' ? 'info' : 'warning' }}</span>
+                <p class="text-[11px] leading-snug" :class="pair.status === 'warn' ? 'text-amber-700' : 'text-red-700'">
+                  {{ pair.description }}
+                </p>
+              </div>
+              <!-- Recommendation -->
+              <div class="flex gap-1.5">
+                <span class="material-symbols-outlined text-[13px] mt-0.5 shrink-0 text-text-muted">lightbulb</span>
+                <p class="text-[11px] leading-snug text-text-secondary">
+                  {{ pair.recommendation }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Ok state: short positive note -->
+            <div
+              v-else-if="pair.status === 'ok'"
+              class="mx-3 mb-3 flex items-start gap-1.5"
+            >
+              <span class="material-symbols-outlined text-[13px] mt-0.5 shrink-0 text-primary">check_circle</span>
+              <p class="text-[11px] leading-snug text-text-secondary">{{ pair.description }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -147,18 +206,97 @@ function balanceStatus(v1: number, v2: number): BalanceStatus {
   return 'over'
 }
 
-const statusLabel = (s: BalanceStatus) => ({ ok: '✓ Balanceado', warn: '⚠ Revisar', over: '✕ Desbalanceado', neutral: '— Sin datos' }[s])
-const statusClass = (s: BalanceStatus) => ({ ok: 'text-primary', warn: 'text-amber-500', over: 'text-red-500', neutral: 'text-text-muted' }[s])
-const dotClass   = (s: BalanceStatus) => ({ ok: 'bg-primary', warn: 'bg-amber-400', over: 'bg-red-500', neutral: 'bg-border-default' }[s])
+const statusLabel = (s: BalanceStatus) =>
+  ({ ok: '✓ Balanceado', warn: '⚠ Revisar', over: '✕ Desbalanceado', neutral: '— Sin datos' }[s])
+const statusClass = (s: BalanceStatus) =>
+  ({ ok: 'text-primary', warn: 'text-amber-500', over: 'text-red-500', neutral: 'text-text-muted' }[s])
+const dotClass = (s: BalanceStatus) =>
+  ({ ok: 'bg-primary', warn: 'bg-amber-400', over: 'bg-red-500', neutral: 'bg-border-default' }[s])
+const cardClass = (s: BalanceStatus) =>
+  ({
+    ok:      'bg-background-muted border-border-soft',
+    warn:    'bg-amber-50 border-amber-200',
+    over:    'bg-red-50 border-red-200',
+    neutral: 'bg-background-muted border-border-soft',
+  }[s])
 
-const balancePairs = computed(() => {
+// Width of the left (v1) side of the ratio bar, capped 10–90% for visibility
+function ratioWidth(v1: number, v2: number): number {
+  const total = v1 + v2
+  if (total === 0) return 50
+  return Math.min(Math.max((v1 / total) * 100, 10), 90)
+}
+
+interface BalancePair {
+  label: string
+  icon: string
+  v1: number
+  v2: number
+  name1: string
+  name2: string
+  status: BalanceStatus
+  description: string
+  recommendation: string
+}
+
+function buildCopy(name1: string, name2: string, v1: number, v2: number): { description: string; recommendation: string } {
+  if (v1 === 0 && v2 === 0)
+    return { description: 'Sin datos suficientes.', recommendation: 'Agrega ejercicios para analizar el balance.' }
+
+  const status = balanceStatus(v1, v2)
+  const ratio = v2 > 0 ? v1 / v2 : 99
+
+  if (status === 'ok') {
+    return {
+      description: `Proporción ideal: ${v1} series de ${name1} y ${v2} de ${name2}.`,
+      recommendation: 'Mantén este balance para un desarrollo equilibrado.',
+    }
+  }
+
+  if (ratio > 1.35) {
+    const excess = v1 - v2
+    return {
+      description: `${name1} supera a ${name2} por ${excess} series (${v1} vs ${v2}).`,
+      recommendation:
+        status === 'warn'
+          ? `Agrega 1–2 ejercicios de ${name2} para equilibrar la carga y prevenir desequilibrios posturales.`
+          : `Desbalance severo: reduce ${excess} series de ${name1} o agrega ejercicios de ${name2}. Un ratio >2:1 aumenta el riesgo de lesión.`,
+    }
+  } else {
+    const deficit = v2 - v1
+    return {
+      description: `${name2} supera a ${name1} por ${deficit} series (${v2} vs ${v1}).`,
+      recommendation:
+        status === 'warn'
+          ? `Agrega 1–2 ejercicios de ${name1} para compensar y mantener la simetría muscular.`
+          : `Desbalance severo: incrementa ${name1} en ${deficit} series. La diferencia actual puede generar asimetrías y compensaciones posturales.`,
+    }
+  }
+}
+
+const balancePairs = computed<BalancePair[]>(() => {
   const push = getMuscleVol('Pecho') + getMuscleVol('Hombros')
   const pull = getMuscleVol('Espalda')
   const legs = getMuscleVol('Piernas')
   const upper = push + pull
+
   return [
-    { label: 'Empuje vs. Tirón', icon: '↔', v1: push, v2: pull, status: balanceStatus(push, pull) },
-    { label: 'Piernas vs. Upper', icon: '🦵', v1: legs, v2: upper, status: balanceStatus(legs, upper) },
+    {
+      label: 'Empuje vs. Tirón',
+      icon: '↔',
+      v1: push, v2: pull,
+      name1: 'Empuje', name2: 'Tirón',
+      status: balanceStatus(push, pull),
+      ...buildCopy('Empuje', 'Tirón', push, pull),
+    },
+    {
+      label: 'Piernas vs. Upper',
+      icon: '🦵',
+      v1: legs, v2: upper,
+      name1: 'Piernas', name2: 'Upper',
+      status: balanceStatus(legs, upper),
+      ...buildCopy('Piernas', 'Upper body', legs, upper),
+    },
   ]
 })
 </script>
