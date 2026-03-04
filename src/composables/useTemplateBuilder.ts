@@ -232,6 +232,16 @@ export function useTemplateBuilder(initialId?: string) {
     markDirty()
   }
 
+  function renameWeek(weekId: string, name: string) {
+    const week = weeks.value.find(w => w.id === weekId)
+    if (!week) return
+    week.label = name
+    week.sessions.forEach(s => {
+      s.name = name
+    })
+    markDirty()
+  }
+
   // ── Session management ─────────────────────────────────────
 
   function addSession() {
@@ -461,7 +471,7 @@ export function useTemplateBuilder(initialId?: string) {
     templateId, draggedExId,
 
     // Week
-    addWeek, removeWeek, duplicateWeek,
+    addWeek, removeWeek, duplicateWeek, renameWeek,
 
     // Session
     addSession, removeSession, renameSession,

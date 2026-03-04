@@ -61,6 +61,14 @@
         </button>
         <div class="mx-3 my-1 border-t border-border-default" />
         <button
+          class="w-full px-4 py-2.5 text-left text-sm text-text-secondary hover:bg-background-muted flex items-center gap-2.5 transition-colors"
+          @click="openRenameModal(); menuOpen = false"
+        >
+          <span class="material-symbols-outlined text-[16px] text-text-muted">drive_file_rename_outline</span>
+          Cambiar nombre
+        </button>
+        <div class="mx-3 my-1 border-t border-border-default" />
+        <button
           v-if="weeks.length > 1"
           class="w-full px-4 py-2.5 text-left text-sm text-red-400 hover:bg-red-400/10 flex items-center gap-2.5 transition-colors"
           @click="emit('remove', menuWeekId); menuOpen = false"
@@ -70,18 +78,27 @@
         </button>
       </div>
     </Teleport>
+
+    <RenameWeekModal
+      :show="renameModalOpen"
+      :current-name="renameInitialName"
+      @close="closeRenameModal"
+      @save="onRenameSave"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { WeekTemplate } from '@/types/workout.types'
+import RenameWeekModal from '@/components/modals/RenameWeekModal.vue'
 
-defineProps<{ weeks: WeekTemplate[]; activeIndex: number }>()
+const props = defineProps<{ weeks: WeekTemplate[]; activeIndex: number }>()
 
 const emit = defineEmits<{
   select:    [index: number]
   add:       []
+  rename:    [weekId: string, name: string]
   remove:    [weekId: string]
   duplicate: [weekId: string]
 }>()
@@ -91,11 +108,29 @@ const menuX      = ref(0)
 const menuY      = ref(0)
 const menuWeekId = ref('')
 
+const renameModalOpen  = ref(false)
+const renameInitialName = ref('')
+
 function openMenu(weekId: string, _idx: number, e: MouseEvent) {
   const rect = (e.target as HTMLElement).getBoundingClientRect()
-  menuX.value   = rect.left
-  menuY.value   = rect.bottom + 4
+  menuX.value = rect.left
+  menuY.value = rect.bottom + 4
   menuWeekId.value = weekId
   menuOpen.value = true
+}
+
+function openRenameModal() {
+  const week = props.weeks.find(w => w.id === menuWeekId.value)
+  renameInitialName.value = week?.label?.trim() || `Semana ${week?.week_number ?? 1}`
+  renameModalOpen.value = true
+}
+
+function closeRenameModal() {
+  renameModalOpen.value = false
+}
+
+function onRenameSave(name: string) {
+  emit('rename', menuWeekId.value, name)
+  closeRenameModal()
 }
 </script>

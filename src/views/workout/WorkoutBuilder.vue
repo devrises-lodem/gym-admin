@@ -58,25 +58,26 @@
     <div class="flex flex-1 overflow-hidden">
 
       <!-- Left: Library -->
-      <ExerciseLibraryPanel
+      <!-- <ExerciseLibraryPanel
         @lib-drag-start="onLibDragStart"
         @quick-add="handleQuickAdd"
-      />
-
+      />*/
+-->
       <!-- Center: Canvas -->
       <main class="flex-1 overflow-y-auto custom-scrollbar flex flex-col">
 
         <!-- Template meta form -->
         <div class="shrink-0 bg-background-dark border-b border-border-default px-6 py-4 space-y-3">
           <div>
-            <label class="text-[10px] font-bold uppercase tracking-wider text-text-muted block mb-1.5">
+            <label for="templateName" class="text-[10px] font-bold uppercase tracking-wider text-text-muted block mb-1.5">
               Nombre de la plantilla
             </label>
             <input
+              id="templateName"
               v-model="templateMeta.name"
               type="text"
               placeholder="ej. Hipertrofia Avanzada 4x semana…"
-              class="w-full text-xl font-black bg-transparent border-none outline-none placeholder:text-border-default text-text-primary focus:border-b-2 focus:border-primary pb-1 transition-colors"
+              class="w-full text-xl font-black bg-transparent border-none outline-none placeholder:text-text-muted text-text-primary focus:border-b-2 focus:border-primary pb-1 transition-colors border-b-emerald-600"
               maxlength="80"
             />
           </div>
@@ -115,7 +116,7 @@
               <label class="text-[10px] font-bold uppercase tracking-wider text-text-muted block mb-1.5">Días / semana</label>
               <div class="flex gap-1">
                 <button
-                  v-for="n in [2,3,4,5,6]"
+                  v-for="n in [1,2,3,4,5,6,7]"
                   :key="n"
                   class="w-9 h-9 rounded-lg border font-mono text-sm font-bold transition-colors"
                   :class="templateMeta.daysPerWeek === n
@@ -128,17 +129,19 @@
 
             <!-- Duration -->
             <div>
-              <label class="text-[10px] font-bold uppercase tracking-wider text-text-muted block mb-1.5">Duración</label>
-              <div class="flex gap-1">
-                <button
-                  v-for="n in [4,6,8,12,16]"
-                  :key="n"
-                  class="px-2.5 h-9 rounded-lg border font-mono text-xs font-bold transition-colors"
-                  :class="templateMeta.duration_weeks === n
-                    ? 'bg-primary text-slate-900 border-primary'
-                    : 'border-border-default text-text-muted hover:border-primary hover:text-primary hover:bg-primary-light'"
-                  @click="templateMeta.duration_weeks = n"
-                >{{ n }}s</button>
+              <label class="text-[10px] font-bold uppercase tracking-wider text-text-muted block mb-1.5">Duración (semanas)</label>
+              <div class="flex gap-1">                
+                <select
+                  v-model="templateMeta.duration_weeks"
+                  class="h-9 px-3 rounded-lg border border-border-default bg-background-muted text-sm text-text-primary focus:outline-none focus:border-primary transition-colors w-full"
+                >
+                  <option value="2">2</option>
+                  <option value="4">4</option>
+                  <option value="6">6</option>
+                  <option value="8">8</option>
+                  <option value="12">12</option>
+                  <option value="16">16</option>
+                </select>
               </div>
             </div>
 
@@ -164,6 +167,7 @@
           @add="addWeek"
           @remove="removeWeek"
           @duplicate="duplicateWeek"
+          @rename="(weekId, name) => renameWeek(weekId, name)"
         />
 
         <!-- Sessions area -->
@@ -267,7 +271,7 @@ const DIFFICULTIES = [
 const {
   templateMeta, weeks, activeWeekIndex, sessions, insights, isValid,
   saveStatus, draggedExId,
-  addWeek, removeWeek, duplicateWeek,
+  addWeek, removeWeek, duplicateWeek, renameWeek,
   addSession, removeSession, renameSession,
   addBlock, removeBlock, moveBlock, updateBlock, toggleGroup,
   addSet, removeSet, updateSet,
