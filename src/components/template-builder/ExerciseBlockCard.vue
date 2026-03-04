@@ -90,7 +90,7 @@
         :class="isDragOver
           ? 'border-primary bg-primary/5 text-primary'
           : 'border-border-default text-text-muted hover:border-border-light hover:text-text-secondary'"
-        @click="$emit('drop-to-block')"
+        @click="$emit('open-picker-for-block')"
       >
         <span class="material-symbols-outlined text-[14px]">add</span>
         Agregar al {{ BLOCK_TYPE_LABELS[block.block_type] }}
@@ -154,9 +154,10 @@ const emit = defineEmits<{
   'add-set':        [exerciseId: string]
   'remove-set':     [exerciseId: string, setId: string]
   'update-set':     [exerciseId: string, setId: string, patch: Partial<SetConfig>]
-  'add-exercise':   [exerciseId: string]
-  'remove-exercise':[exerciseId: string]
-  'drop-to-block':  []
+  'add-exercise':        [exerciseId: string]
+  'remove-exercise':     [exerciseId: string]
+  'drop-to-block':       []
+  'open-picker-for-block': []
 }>()
 
 const isDragOver = ref(false)

@@ -193,6 +193,7 @@
               @drop-exercise="exId => addBlock(s.id, exId)"
               @drop-to-block="(bid) => onDropToBlock(s.id, bid)"
               @open-picker="openPicker(s.id)"
+              @open-picker-for-block="bid => openPickerForBlock(s.id, bid)"
             />
           </TransitionGroup>
 
@@ -231,6 +232,7 @@
     <ExercisePickerModal
       :show="pickerVisible"
       :session-name="pickerSessionName"
+      :subtitle="pickerSubtitle"
       @close="pickerVisible = false"
       @add="onPickerAdd"
     />
@@ -288,19 +290,53 @@ function handleQuickAdd(exId: string) {
 }
 
 // ── Picker ────────────────────────────────────────────────────
-const pickerVisible   = ref(false)
-const pickerSessionId = ref<string | null>(null)
+const pickerVisible     = ref(false)
+const pickerSessionId   = ref<string | null>(null)
+const pickerBlockId     = ref<string | null>(null)
 const pickerSessionName = computed(
   () => sessions.value.find(s => s.id === pickerSessionId.value)?.name ?? '',
 )
 
+const BLOCK_TYPE_LABEL: Record<string, string> = {
+  superset:   'Superserie',
+  circuit:    'Circuito',
+  dropset:    'Dropset',
+  rest_pause: 'Rest-Pause',
+  myo_rep:    'Myo-Rep',
+  normal:     'Bloque',
+}
+
+const pickerSubtitle = computed(() => {
+  if (!pickerBlockId.value || !pickerSessionId.value) return undefined
+  const session = sessions.value.find(s => s.id === pickerSessionId.value)
+  const block   = session?.blocks.find(b => b.id === pickerBlockId.value)
+  if (!block) return undefined
+  const typeLabel = BLOCK_TYPE_LABEL[block.block_type] ?? 'Bloque'
+  return block.label ? `${typeLabel} · ${block.label}` : typeLabel
+})
+
 function openPicker(sid: string) {
   pickerSessionId.value = sid
+  pickerBlockId.value   = null
   pickerVisible.value   = true
 }
+
+function openPickerForBlock(sid: string, bid: string) {
+  pickerSessionId.value = sid
+  pickerBlockId.value   = bid
+  pickerVisible.value   = true
+}
+
 function onPickerAdd(exId: string) {
-  if (pickerSessionId.value) addBlock(pickerSessionId.value, exId)
+  if (pickerSessionId.value) {
+    if (pickerBlockId.value) {
+      addExerciseToBlock(pickerSessionId.value, pickerBlockId.value, exId)
+    } else {
+      addBlock(pickerSessionId.value, exId)
+    }
+  }
   pickerVisible.value = false
+  pickerBlockId.value = null
 }
 
 // ── Toast ─────────────────────────────────────────────────────

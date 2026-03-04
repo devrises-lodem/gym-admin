@@ -11,7 +11,14 @@
           <!-- Header -->
           <div class="flex items-baseline gap-2 px-6 py-4 border-b border-border-default relative">
             <h3 class="font-bold text-text-primary">Agregar ejercicio</h3>
-            <span class="text-text-muted text-sm">a <em class="not-italic font-medium text-text-secondary">{{ sessionName }}</em></span>
+            <span class="text-text-muted text-sm">
+              <template v-if="subtitle">
+                a <em class="not-italic font-medium text-text-secondary">{{ subtitle }}</em>
+              </template>
+              <template v-else>
+                a <em class="not-italic font-medium text-text-secondary">{{ sessionName }}</em>
+              </template>
+            </span>
             <button
               class="absolute right-4 top-3.5 w-7 h-7 rounded-lg flex items-center justify-center bg-background-muted text-text-muted hover:bg-red-50 hover:text-red-500 transition-colors"
               @click="$emit('close')"
@@ -89,6 +96,7 @@ import { EXERCISES, DIFF_STYLES } from '@/data/exercises'
 const props = defineProps<{
   show: boolean
   sessionName: string
+  subtitle?: string
 }>()
 
 const emit = defineEmits<{

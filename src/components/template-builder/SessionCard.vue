@@ -70,6 +70,7 @@
           @add-exercise="exId => $emit('add-exercise-to-block', block.id, exId)"
           @remove-exercise="exId => $emit('remove-exercise', block.id, exId)"
           @drop-to-block="$emit('drop-to-block', block.id)"
+          @open-picker-for-block="$emit('open-picker-for-block', block.id)"
         />
       </TransitionGroup>
 
@@ -124,9 +125,10 @@ const emit = defineEmits<{
   'update-set':         [blockId: string, exerciseId: string, setId: string, patch: Partial<SetConfig>]
   'add-exercise-to-block': [blockId: string, exerciseId: string]
   'remove-exercise':    [blockId: string, exerciseId: string]
-  'drop-exercise':      [exerciseId: string]
-  'drop-to-block':      [blockId: string]
-  'open-picker':        []
+  'drop-exercise':         [exerciseId: string]
+  'drop-to-block':         [blockId: string]
+  'open-picker':           []
+  'open-picker-for-block': [blockId: string]
 }>()
 
 const isDragTarget = ref(false)
