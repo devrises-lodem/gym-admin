@@ -1,158 +1,158 @@
 <template>
-  <div class="bg-white rounded-2xl border border-border-default shadow-soft overflow-hidden mb-4 transition-shadow hover:shadow-card">
+  <div
+    class="bg-background-dark border rounded-2xl overflow-hidden transition-all duration-200"
+    :class="isDragTarget
+      ? 'border-primary ring-2 ring-primary/30 ring-offset-2 ring-offset-background-page'
+      : 'border-border-default'"
+    @dragover.prevent="isDragTarget = true"
+    @dragleave.self="isDragTarget = false"
+    @drop.prevent="onDrop"
+  >
+    <!-- Session header -->
+    <div class="flex items-center gap-3 px-4 py-3 border-b border-border-default">
+      <span class="material-symbols-outlined text-[18px] text-text-muted/50 cursor-grab select-none">drag_indicator</span>
 
-    <!-- Session Header -->
-    <div class="flex items-center gap-3 px-5 py-3.5 bg-background-muted border-b border-border-default">
-      <div class="w-1 h-7 rounded-full shrink-0" :style="{ background: session.color }" />
+      <!-- Name (editable) -->
       <input
         :value="session.name"
-        class="flex-1 font-bold text-text-primary bg-transparent border-none outline-none text-sm focus:border-b focus:border-primary"
-        spellcheck="false"
-        @change="$emit('rename', ($event.target as HTMLInputElement).value)"
-        @keydown.enter="($event.target as HTMLInputElement).blur()"
+        class="flex-1 bg-transparent font-bold text-base text-text-primary outline-none
+               border-b border-transparent focus:border-primary pb-0.5 transition-colors min-w-0"
+        @blur="$emit('rename', ($event.target as HTMLInputElement).value)"
+        @keyup.enter="($event.target as HTMLInputElement).blur()"
       />
-      <!-- Meta pills -->
-      <div class="flex items-center gap-2 shrink-0">
-        <span class="flex items-center gap-1 px-2 py-1 rounded-full bg-background-dark text-[11px] font-medium text-text-secondary border border-border-soft">
-          <span class="material-symbols-outlined text-[13px]">schedule</span>
-          ~{{ estMinutes }} min
-        </span>
-        <span class="px-2 py-1 rounded-full bg-background-dark text-[11px] font-medium text-text-secondary border border-border-soft">
-          {{ totalSets }} series
-        </span>
-        <span v-if="session.blocks.length" class="px-2 py-1 rounded-full bg-background-dark text-[11px] font-medium text-text-secondary border border-border-soft">
-          {{ session.blocks.length }} ejercicio{{ session.blocks.length !== 1 ? 's' : '' }}
-        </span>
+
+      <!-- Stats -->
+      <div class="hidden sm:flex items-center gap-3 text-xs text-text-muted font-medium shrink-0">
+        <span>{{ totalBlocks }} bloque{{ totalBlocks !== 1 ? 's' : '' }}</span>
+        <span class="text-border-default">·</span>
+        <span>{{ totalExercises }} ejerc.</span>
+        <span class="text-border-default">·</span>
+        <span>{{ totalSets }} series</span>
       </div>
+
+      <!-- Actions -->
       <button
-        class="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:bg-red-50 hover:text-red-500 transition-colors ml-1"
-        title="Eliminar sesión"
+        class="flex items-center gap-1 h-8 px-3 rounded-lg text-xs font-semibold text-text-muted
+               hover:text-primary hover:bg-primary/10 transition-colors shrink-0"
+        @click="$emit('open-picker')"
+      >
+        <span class="material-symbols-outlined text-[15px]">search</span>
+        <span class="hidden sm:inline">Buscar</span>
+      </button>
+
+      <button
+        class="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted
+               hover:text-red-400 hover:bg-red-400/10 transition-colors shrink-0"
         @click="$emit('remove')"
       >
-        <span class="material-symbols-outlined text-[16px]">delete</span>
+        <span class="material-symbols-outlined text-[18px]">close</span>
       </button>
     </div>
 
-    <!-- Blocks area -->
-    <div class="p-3">
-      <template v-for="(entry, idx) in groupedBlocks" :key="idx">
-
-        <!-- Group wrapper (superset / circuit) -->
-        <div
-          v-if="entry.type === 'group'"
-          class="mb-2 rounded-xl border overflow-hidden"
-          :class="entry.groupType === 'superset' ? 'border-blue-200 bg-blue-50/40' : 'border-orange-200 bg-orange-50/40'"
-        >
-          <div
-            class="flex items-center gap-2 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider"
-            :class="entry.groupType === 'superset' ? 'text-blue-600' : 'text-orange-500'"
-          >
-            <span class="material-symbols-outlined text-[14px]">{{ entry.groupType === 'superset' ? 'link' : 'loop' }}</span>
-            {{ entry.groupType === 'superset' ? 'Superserie' : 'Circuito' }}
-            <span class="opacity-60">({{ entry.blocks.length }} ejercicios)</span>
-          </div>
-          <div class="px-2 pb-2">
-            <ExerciseBlock
-              v-for="block in entry.blocks"
-              :key="block.id"
-              :block="block"
-              @update="(f, v) => $emit('update-block', block.id, f, v)"
-              @remove="$emit('remove-block', block.id)"
-              @move="(d) => $emit('move-block', block.id, d)"
-              @toggle-group="(t) => $emit('toggle-group', block.id, t)"
-            />
-          </div>
-        </div>
-
-        <!-- Single block -->
-        <ExerciseBlock
-          v-else
-          :block="entry.block"
-          @update="(f, v) => $emit('update-block', entry.block.id, f, v)"
-          @remove="$emit('remove-block', entry.block.id)"
-          @move="(d) => $emit('move-block', entry.block.id, d)"
-          @toggle-group="(t) => $emit('toggle-group', entry.block.id, t)"
+    <!-- Blocks -->
+    <div class="p-3 space-y-2">
+      <TransitionGroup name="block-list" tag="div" class="space-y-2">
+        <ExerciseBlockCard
+          v-for="(block, idx) in session.blocks"
+          :key="block.id"
+          :block="block"
+          :is-first="idx === 0"
+          :is-last="idx === session.blocks.length - 1"
+          :dragged-id="draggedId"
+          @move-up="$emit('move-block', block.id, 'up')"
+          @move-down="$emit('move-block', block.id, 'down')"
+          @remove="$emit('remove-block', block.id)"
+          @toggle-type="t => $emit('toggle-group', block.id, t)"
+          @update="(f,v) => $emit('update-block', block.id, f, v)"
+          @add-set="exId => $emit('add-set', block.id, exId)"
+          @remove-set="(exId, sid) => $emit('remove-set', block.id, exId, sid)"
+          @update-set="(exId, sid, p) => $emit('update-set', block.id, exId, sid, p)"
+          @add-exercise="exId => $emit('add-exercise-to-block', block.id, exId)"
+          @remove-exercise="exId => $emit('remove-exercise', block.id, exId)"
+          @drop-to-block="$emit('drop-to-block', block.id)"
         />
-      </template>
+      </TransitionGroup>
 
-      <!-- Drop zone -->
+      <!-- Drop zone when empty -->
       <div
-        class="mt-1 border-2 border-dashed rounded-xl py-5 flex flex-col items-center justify-center gap-1 transition-all cursor-default"
-        :class="isDragOver
-          ? 'border-primary bg-primary-light'
-          : 'border-border-dashed hover:border-primary/50 hover:bg-background-muted'"
-        @dragover.prevent="isDragOver = true"
-        @dragleave="isDragOver = false"
-        @drop.prevent="onDrop"
+        v-if="session.blocks.length === 0"
+        class="flex flex-col items-center gap-2 py-10 rounded-xl border-2 border-dashed
+               transition-all duration-150"
+        :class="isDragTarget
+          ? 'border-primary bg-primary/5 text-primary'
+          : 'border-border-default text-text-muted'"
       >
-        <span class="material-symbols-outlined text-2xl" :class="isDragOver ? 'text-primary' : 'text-text-muted'">add_circle</span>
-        <p class="text-[12px] font-medium" :class="isDragOver ? 'text-primary' : 'text-text-muted'">
-          Arrastra un ejercicio aquí o
-          <button class="font-bold text-primary hover:underline" @click="$emit('open-picker')">elige uno</button>
-        </p>
+        <span class="material-symbols-outlined text-4xl opacity-30">fitness_center</span>
+        <span class="text-sm font-semibold">Arrastra ejercicios aquí</span>
+        <span class="text-xs opacity-70">o usa el buscador de ejercicios</span>
       </div>
+
+      <!-- Add manually -->
+      <button
+        class="w-full flex items-center justify-center gap-2 h-9 rounded-xl border border-dashed
+               border-border-default text-xs font-semibold text-text-muted
+               hover:border-primary hover:text-primary hover:bg-primary/5 transition-all"
+        @click="$emit('open-picker')"
+      >
+        <span class="material-symbols-outlined text-[16px]">add</span>
+        Agregar ejercicio
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import ExerciseBlock from './ExerciseBlock.vue'
-import type { TemplateSession, TemplateBlock } from '@/composables/useTemplateBuilder'
+import type { TrainingSession, BlockType, SetConfig } from '@/types/workout.types'
+import ExerciseBlockCard from './ExerciseBlockCard.vue'
 
-const props = defineProps<{ session: TemplateSession }>()
-
-const emit = defineEmits<{
-  rename: [name: string]
-  remove: []
-  'update-block': [bid: string, field: string, value: string]
-  'remove-block': [bid: string]
-  'move-block': [bid: string, dir: number]
-  'toggle-group': [bid: string, type: 'superset' | 'circuit']
-  'drop-exercise': [exId: number]
-  'open-picker': []
+const props = defineProps<{
+  session:   TrainingSession
+  draggedId?: string | number | null
 }>()
 
-const isDragOver = ref(false)
+const emit = defineEmits<{
+  rename:               [name: string]
+  remove:               []
+  'add-block':          [exerciseId: string, type: BlockType]
+  'remove-block':       [blockId: string]
+  'move-block':         [blockId: string, dir: 'up' | 'down']
+  'toggle-group':       [blockId: string, type: BlockType]
+  'update-block':       [blockId: string, field: string, value: unknown]
+  'add-set':            [blockId: string, exerciseId: string]
+  'remove-set':         [blockId: string, exerciseId: string, setId: string]
+  'update-set':         [blockId: string, exerciseId: string, setId: string, patch: Partial<SetConfig>]
+  'add-exercise-to-block': [blockId: string, exerciseId: string]
+  'remove-exercise':    [blockId: string, exerciseId: string]
+  'drop-exercise':      [exerciseId: string]
+  'drop-to-block':      [blockId: string]
+  'open-picker':        []
+}>()
+
+const isDragTarget = ref(false)
 
 function onDrop(e: DragEvent) {
-  isDragOver.value = false
-  const exId = parseInt(e.dataTransfer?.getData('exId') ?? '')
+  isDragTarget.value = false
+  const exId = e.dataTransfer?.getData('exerciseId')
   if (exId) emit('drop-exercise', exId)
 }
 
-const totalSets = computed(() => props.session.blocks.reduce((acc, b) => acc + (b.sets || 0), 0))
-const estMinutes = computed(() => {
-  const secs = props.session.blocks.reduce((acc, b) => acc + (b.sets || 0) * ((b.rest || 60) + 45), 0)
-  return Math.max(Math.round(secs / 60), 1)
-})
-
-interface GroupEntry {
-  type: 'group'
-  groupType: string
-  blocks: TemplateBlock[]
-}
-interface SingleEntry {
-  type: 'single'
-  block: TemplateBlock
-}
-type BlockEntry = GroupEntry | SingleEntry
-
-const groupedBlocks = computed<BlockEntry[]>(() => {
-  const blocks = props.session.blocks
-  const result: BlockEntry[] = []
-  let i = 0
-  while (i < blocks.length) {
-    const b = blocks[i]
-    if (b.group === 'superset' || b.group === 'circuit') {
-      const groupBlocks: TemplateBlock[] = []
-      while (i < blocks.length && blocks[i].group === b.group) groupBlocks.push(blocks[i++])
-      result.push({ type: 'group', groupType: b.group, blocks: groupBlocks })
-    } else {
-      result.push({ type: 'single', block: b })
-      i++
-    }
-  }
-  return result
-})
+const totalBlocks    = computed(() => props.session.blocks.length)
+const totalExercises = computed(() =>
+  props.session.blocks.reduce((a, b) => a + b.exercises.length, 0),
+)
+const totalSets = computed(() =>
+  props.session.blocks.reduce(
+    (a, b) => a + b.exercises.reduce((a2, e) => a2 + e.sets.length, 0), 0,
+  ),
+)
 </script>
+
+<style scoped>
+.block-list-enter-active { animation: blockIn 0.15s ease-out; }
+.block-list-leave-active { animation: blockIn 0.1s ease-in reverse; }
+@keyframes blockIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>

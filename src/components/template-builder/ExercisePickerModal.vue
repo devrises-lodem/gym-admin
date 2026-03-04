@@ -93,7 +93,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   close: []
-  add: [exId: number]
+  add: [exId: string]
 }>()
 
 const query = ref('')
@@ -129,7 +129,7 @@ const filtered = computed(() => {
 })
 
 function select(exId: number) {
-  emit('add', exId)
+  emit('add', String(exId))
   emit('close')
 }
 </script>

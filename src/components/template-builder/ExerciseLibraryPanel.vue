@@ -71,7 +71,7 @@
         class="group flex items-center gap-3 p-2.5 rounded-xl border border-transparent hover:border-border-default hover:bg-background-muted cursor-grab active:cursor-grabbing transition-all"
         draggable="true"
         @dragstart="handleDragStart($event, ex.id)"
-        @click="$emit('quick-add', ex.id)"
+        @click="$emit('quick-add', String(ex.id))"
       >
         <!-- Thumb -->
         <div class="w-11 h-11 rounded-lg bg-background-muted flex items-center justify-center text-xl shrink-0 relative overflow-hidden">
@@ -108,8 +108,8 @@ import { ref, computed } from 'vue'
 import { EXERCISES, DIFF_STYLES } from '@/data/exercises'
 
 const emit = defineEmits<{
-  'lib-drag-start': [exId: number]
-  'quick-add': [exId: number]
+  'lib-drag-start': [exId: string]
+  'quick-add': [exId: string]
 }>()
 
 const searchQuery = ref('')
@@ -153,7 +153,9 @@ function clearFilters() {
 }
 
 function handleDragStart(event: DragEvent, exId: number) {
-  event.dataTransfer?.setData('exId', String(exId))
-  emit('lib-drag-start', exId)
+  const id = String(exId)
+  event.dataTransfer?.setData('exerciseId', id)
+  if (event.dataTransfer) event.dataTransfer.effectAllowed = 'copy'
+  emit('lib-drag-start', id)
 }
 </script>

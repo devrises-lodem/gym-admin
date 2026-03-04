@@ -1,9 +1,8 @@
 <template>
   <div class="flex flex-col h-full bg-background-page">
 
-    <!-- Page Topbar (inside the DashboardLayout main area) -->
+    <!-- ── Topbar ──────────────────────────────────────────── -->
     <div class="shrink-0 bg-background-dark border-b border-border-default px-6 py-3 flex items-center gap-3">
-      <!-- Breadcrumb -->
       <div class="flex items-center gap-1.5 text-sm text-text-muted">
         <RouterLink to="/" class="hover:text-text-primary transition-colors">Templates</RouterLink>
         <span class="material-symbols-outlined text-[14px]">chevron_right</span>
@@ -14,37 +13,54 @@
 
       <div class="flex-1" />
 
-      <!-- Actions -->
       <div class="flex items-center gap-2">
-        <div class="flex items-center gap-1.5 text-xs text-text-muted mr-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-primary" />
-          Guardado
+        <!-- Save status -->
+        <div class="flex items-center gap-1.5 text-xs mr-2 transition-colors"
+          :class="{
+            'text-text-muted':   saveStatus === 'saved',
+            'text-amber-400':    saveStatus === 'saving' || saveStatus === 'unsaved',
+            'text-red-400':      saveStatus === 'error',
+          }">
+          <span class="w-1.5 h-1.5 rounded-full transition-colors"
+            :class="{
+              'bg-primary':                saveStatus === 'saved',
+              'bg-amber-400 animate-pulse': saveStatus === 'saving',
+              'bg-amber-400':              saveStatus === 'unsaved',
+              'bg-red-400':                saveStatus === 'error',
+            }" />
+          <span v-if="saveStatus === 'saved'">Guardado</span>
+          <span v-else-if="saveStatus === 'saving'">Guardando…</span>
+          <span v-else-if="saveStatus === 'unsaved'">Sin guardar</span>
+          <span v-else>Error al guardar</span>
         </div>
+
         <button
           class="px-4 h-9 rounded-lg border border-border-default text-sm font-semibold text-text-secondary hover:bg-background-muted transition-colors"
-          @click="resetBuilder"
+          @click="handleReset"
         >Descartar</button>
+
         <button
           class="px-4 h-9 rounded-lg text-sm font-bold transition-colors flex items-center gap-1.5"
-          :class="isValid
+          :class="canPublish
             ? 'bg-primary text-slate-900 hover:bg-primary-hover shadow-button'
             : 'bg-background-muted text-text-muted cursor-not-allowed'"
-          :disabled="!isValid"
-          @click="publishTemplate"
+          :disabled="!canPublish"
+          @click="handlePublish"
         >
-          <span class="material-symbols-outlined text-[16px]">publish</span>
+          <span v-if="isPublishing" class="material-symbols-outlined text-[16px] animate-spin">progress_activity</span>
+          <span v-else class="material-symbols-outlined text-[16px]">publish</span>
           Publicar plantilla
         </button>
       </div>
     </div>
 
-    <!-- Main layout: Library | Canvas | Insights -->
+    <!-- ── Main layout ─────────────────────────────────────── -->
     <div class="flex flex-1 overflow-hidden">
 
-      <!-- Left: Exercise Library -->
+      <!-- Left: Library -->
       <ExerciseLibraryPanel
         @lib-drag-start="onLibDragStart"
-        @quick-add="onQuickAddFromLibrary"
+        @quick-add="handleQuickAdd"
       />
 
       <!-- Center: Canvas -->
@@ -59,7 +75,7 @@
             <input
               v-model="templateMeta.name"
               type="text"
-              placeholder="ej. Hipertrofia Avanzada 4x semana..."
+              placeholder="ej. Hipertrofia Avanzada 4x semana…"
               class="w-full text-xl font-black bg-transparent border-none outline-none placeholder:text-border-default text-text-primary focus:border-b-2 focus:border-primary pb-1 transition-colors"
               maxlength="80"
             />
@@ -85,16 +101,12 @@
               <label class="text-[10px] font-bold uppercase tracking-wider text-text-muted block mb-1.5">Nivel</label>
               <div class="flex gap-1">
                 <button
-                  v-for="d in ['Principiante','Intermedio','Avanzado']"
-                  :key="d"
+                  v-for="d in DIFFICULTIES"
+                  :key="d.value"
                   class="px-3 h-9 rounded-lg border text-xs font-bold transition-colors"
-                  :class="templateMeta.difficulty === d
-                    ? d === 'Principiante' ? 'bg-green-100 text-green-700 border-green-300'
-                      : d === 'Intermedio' ? 'bg-yellow-100 text-yellow-700 border-yellow-300'
-                      : 'bg-red-100 text-red-600 border-red-300'
-                    : 'border-border-default text-text-muted hover:bg-background-muted'"
-                  @click="templateMeta.difficulty = d"
-                >{{ d }}</button>
+                  :class="templateMeta.difficulty === d.value ? d.activeClass : 'border-border-default text-text-muted hover:bg-background-muted'"
+                  @click="templateMeta.difficulty = d.value"
+                >{{ d.value }}</button>
               </div>
             </div>
 
@@ -114,13 +126,29 @@
               </div>
             </div>
 
+            <!-- Duration -->
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-wider text-text-muted block mb-1.5">Duración</label>
+              <div class="flex gap-1">
+                <button
+                  v-for="n in [4,6,8,12,16]"
+                  :key="n"
+                  class="px-2.5 h-9 rounded-lg border font-mono text-xs font-bold transition-colors"
+                  :class="templateMeta.duration_weeks === n
+                    ? 'bg-primary text-slate-900 border-primary'
+                    : 'border-border-default text-text-muted hover:border-primary hover:text-primary hover:bg-primary-light'"
+                  @click="templateMeta.duration_weeks = n"
+                >{{ n }}s</button>
+              </div>
+            </div>
+
             <!-- Description -->
             <div class="flex-1 min-w-48">
-              <label class="text-[10px] font-bold uppercase tracking-wider text-text-muted block mb-1.5">Descripción breve</label>
+              <label class="text-[10px] font-bold uppercase tracking-wider text-text-muted block mb-1.5">Descripción</label>
               <input
                 v-model="templateMeta.description"
                 type="text"
-                placeholder="Objetivos, metodología, a quién va dirigida..."
+                placeholder="Objetivos, metodología, a quién va dirigida…"
                 class="w-full h-9 px-3 rounded-lg border border-border-default bg-background-muted text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary transition-colors"
                 maxlength="280"
               />
@@ -128,26 +156,45 @@
           </div>
         </div>
 
+        <!-- Week tabs -->
+        <WeekTabBar
+          :weeks="weeks"
+          :active-index="activeWeekIndex"
+          @select="activeWeekIndex = $event"
+          @add="addWeek"
+          @remove="removeWeek"
+          @duplicate="duplicateWeek"
+        />
+
         <!-- Sessions area -->
-        <div class="flex-1 p-5">
-          <TransitionGroup name="session-list" tag="div">
+        <div class="flex-1 p-5 space-y-4">
+          <TransitionGroup name="session-list" tag="div" class="space-y-4">
             <SessionCard
               v-for="s in sessions"
               :key="s.id"
               :session="s"
+              :dragged-id="draggedExId ? String(draggedExId) : null"
               @rename="renameSession(s.id, $event)"
               @remove="removeSession(s.id)"
+              @add-block="(exId, type) => addBlock(s.id, exId, type)"
+              @remove-block="bid => removeBlock(s.id, bid)"
+              @move-block="(bid, dir) => moveBlock(s.id, bid, dir)"
+              @toggle-group="(bid, type) => toggleGroup(s.id, bid, type)"
               @update-block="(bid, f, v) => updateBlock(s.id, bid, f, v)"
-              @remove-block="(bid) => removeBlock(s.id, bid)"
-              @move-block="(bid, d) => moveBlock(s.id, bid, d)"
-              @toggle-group="(bid, t) => toggleGroup(s.id, bid, t)"
-              @drop-exercise="(exId) => addBlock(s.id, exId)"
+              @add-set="(bid, exId) => addSet(s.id, bid, exId)"
+              @remove-set="(bid, exId, sid) => removeSet(s.id, bid, exId, sid)"
+              @update-set="(bid, exId, sid, patch) => updateSet(s.id, bid, exId, sid, patch)"
+              @add-exercise-to-block="(bid, exId) => addExerciseToBlock(s.id, bid, exId)"
+              @remove-exercise="(bid, exId) => removeExerciseFromBlock(s.id, bid, exId)"
+              @drop-exercise="exId => addBlock(s.id, exId)"
+              @drop-to-block="(bid) => onDropToBlock(s.id, bid)"
               @open-picker="openPicker(s.id)"
             />
           </TransitionGroup>
 
           <!-- Empty state -->
-          <div v-if="sessions.length === 0" class="flex flex-col items-center justify-center py-20 gap-3 text-text-muted">
+          <div v-if="sessions.length === 0"
+            class="flex flex-col items-center justify-center py-20 gap-3 text-text-muted">
             <span class="material-symbols-outlined text-6xl opacity-20">assignment</span>
             <p class="text-base font-semibold text-text-secondary">Empieza tu plantilla</p>
             <p class="text-sm text-center max-w-sm">Agrega una sesión y arrastra ejercicios desde la biblioteca lateral</p>
@@ -160,8 +207,7 @@
             </button>
           </div>
 
-          <!-- Add session button -->
-          <div v-else class="flex justify-center mt-2">
+          <div v-else class="flex justify-center pt-2">
             <button
               class="flex items-center gap-2 px-5 h-10 rounded-xl border-2 border-dashed border-primary-border text-sm font-semibold text-text-secondary hover:border-primary hover:text-primary hover:bg-primary-light transition-all"
               @click="addSession"
@@ -191,8 +237,11 @@
         v-if="toastVisible"
         class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl bg-text-primary text-white text-sm font-semibold shadow-[0_8px_32px_rgba(0,0,0,0.25)] flex items-center gap-2"
       >
-        <span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
-        Plantilla publicada correctamente
+        <span class="material-symbols-outlined text-[18px]"
+          :class="toastType === 'success' ? 'text-primary' : 'text-red-400'">
+          {{ toastType === 'success' ? 'check_circle' : 'error' }}
+        </span>
+        {{ toastMessage }}
       </div>
     </Transition>
   </div>
@@ -203,55 +252,83 @@ import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useTemplateBuilder } from '@/composables/useTemplateBuilder'
 import { TEMPLATE_CATEGORIES } from '@/data/exercises'
-import ExerciseLibraryPanel from '@/components/template-builder/ExerciseLibraryPanel.vue'
-import SessionCard from '@/components/template-builder/SessionCard.vue'
-import InsightsPanel from '@/components/template-builder/InsightsPanel.vue'
-import ExercisePickerModal from '@/components/template-builder/ExercisePickerModal.vue'
+import ExerciseLibraryPanel  from '@/components/template-builder/ExerciseLibraryPanel.vue'
+import SessionCard            from '@/components/template-builder/SessionCard.vue'
+import InsightsPanel          from '@/components/template-builder/InsightsPanel.vue'
+import ExercisePickerModal    from '@/components/template-builder/ExercisePickerModal.vue'
+import WeekTabBar             from '@/components/template-builder/WeekTabBar.vue'
+
+const DIFFICULTIES = [
+  { value: 'Principiante', activeClass: 'bg-green-100  text-green-700  border-green-300'  },
+  { value: 'Intermedio',   activeClass: 'bg-yellow-100 text-yellow-700 border-yellow-300' },
+  { value: 'Avanzado',     activeClass: 'bg-red-100    text-red-600    border-red-300'    },
+] as const
 
 const {
-  templateMeta, sessions, insights, isValid,
+  templateMeta, weeks, activeWeekIndex, sessions, insights, isValid,
+  saveStatus, draggedExId,
+  addWeek, removeWeek, duplicateWeek,
   addSession, removeSession, renameSession,
-  addBlock, removeBlock, updateBlock, toggleGroup, moveBlock,
-  onLibDragStart: _onLibDragStart,
+  addBlock, removeBlock, moveBlock, updateBlock, toggleGroup,
+  addSet, removeSet, updateSet,
+  addExerciseToBlock, removeExerciseFromBlock,
+  onLibDragStart, onDropToBlock,
+  publishTemplate, resetBuilder,
 } = useTemplateBuilder()
 
-function onLibDragStart(exId: number) {
-  _onLibDragStart(exId)
-}
-
-function onQuickAddFromLibrary(exId: number) {
+// ── Quick add ─────────────────────────────────────────────────
+function handleQuickAdd(exId: string) {
   if (sessions.value.length === 0) addSession()
   const last = sessions.value[sessions.value.length - 1]
-  addBlock(last.id, exId)
+  if (last) addBlock(last.id, exId)
 }
 
-const pickerVisible = ref(false)
+// ── Picker ────────────────────────────────────────────────────
+const pickerVisible   = ref(false)
 const pickerSessionId = ref<string | null>(null)
 const pickerSessionName = computed(
-  () => sessions.value.find((s) => s.id === pickerSessionId.value)?.name ?? '',
+  () => sessions.value.find(s => s.id === pickerSessionId.value)?.name ?? '',
 )
 
 function openPicker(sid: string) {
   pickerSessionId.value = sid
-  pickerVisible.value = true
+  pickerVisible.value   = true
 }
-
-function onPickerAdd(exId: number) {
+function onPickerAdd(exId: string) {
   if (pickerSessionId.value) addBlock(pickerSessionId.value, exId)
+  pickerVisible.value = false
 }
 
-function resetBuilder() {
-  if (!confirm('¿Descartar todos los cambios?')) return
-  templateMeta.value = { name: '', category: '', difficulty: 'Intermedio', description: '', daysPerWeek: 3 }
-  sessions.value = []
-}
-
+// ── Toast ─────────────────────────────────────────────────────
 const toastVisible = ref(false)
-function publishTemplate() {
-  if (!isValid.value) return
-  console.log('Published:', { template: templateMeta.value, sessions: sessions.value })
+const toastMessage = ref('')
+const toastType    = ref<'success' | 'error'>('success')
+
+function showToast(msg: string, type: 'success' | 'error' = 'success') {
+  toastMessage.value = msg
+  toastType.value    = type
   toastVisible.value = true
   setTimeout(() => (toastVisible.value = false), 3500)
+}
+
+// ── Publish ───────────────────────────────────────────────────
+const isPublishing = ref(false)
+const canPublish   = computed(() => isValid.value && !isPublishing.value)
+
+async function handlePublish() {
+  if (!canPublish.value) return
+  isPublishing.value = true
+  const ok = await publishTemplate()
+  isPublishing.value = false
+  ok
+    ? showToast('Plantilla publicada correctamente ✓')
+    : showToast('Error al publicar. Revisa los campos requeridos.', 'error')
+}
+
+// ── Reset ─────────────────────────────────────────────────────
+function handleReset() {
+  if (!confirm('¿Descartar todos los cambios?')) return
+  resetBuilder()
 }
 </script>
 
@@ -263,5 +340,5 @@ function publishTemplate() {
   to   { opacity: 1; transform: translateY(0); }
 }
 .toast-enter-active, .toast-leave-active { transition: all 0.25s ease; }
-.toast-enter-from, .toast-leave-to { opacity: 0; transform: translateX(-50%) translateY(12px); }
+.toast-enter-from,  .toast-leave-to  { opacity: 0; transform: translateX(-50%) translateY(12px); }
 </style>
