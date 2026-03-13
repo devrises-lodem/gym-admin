@@ -23,21 +23,24 @@
         />
         <div class="flex-1 overflow-y-auto scrollbar-hide">
           <!-- Active conversation -->
-          <div class="p-4 flex items-start gap-4 bg-primary/5 border-l-4 border-primary cursor-pointer">
+          <div
+            v-if="firstConversation"
+            class="p-4 flex items-start gap-4 bg-primary/5 border-l-4 border-primary cursor-pointer"
+          >
             <div class="relative shrink-0">
               <img class="h-12 w-12 rounded-full object-cover" data-alt="Active client profile alexandra"
-                :src="conversations[0].img" />
+                :src="firstConversation.img" />
               <span
                 class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-primary border-2 border-white dark:border-slate-900"></span>
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex justify-between items-baseline">
-                <h3 class="text-sm font-bold truncate">{{ conversations[0].name }}</h3>
-                <span class="text-[10px] text-slate-400 uppercase font-medium">{{ conversations[0].time }}</span>
+                <h3 class="text-sm font-bold truncate">{{ firstConversation.name }}</h3>
+                <span class="text-[10px] text-slate-400 uppercase font-medium">{{ firstConversation.time }}</span>
               </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">{{ conversations[0].preview }}</p>
-              <div class="mt-2" v-if="conversations[0].badge">
-                <StatusBadge :label="conversations[0].badge" :variant="conversations[0].badgeVariant as any" />
+              <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">{{ firstConversation.preview }}</p>
+              <div class="mt-2" v-if="firstConversation.badge">
+                <StatusBadge :label="firstConversation.badge" :variant="firstConversation.badgeVariant as any" />
               </div>
             </div>
           </div>
@@ -233,13 +236,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 import FilterPills from '@/components/ui/FilterPills.vue'
 import StatusBadge from '@/components/ui/StatusBadge.vue'
 
 const chatFilters = ['All', 'Unread', 'High Priority', 'New Activity']
 const activeChatFilter = ref('All')
+
+const firstConversation = computed(() => conversations[0])
 
 const audioWaveform = [
   '2px', '4px', '6px', '3px', '5px', '7px', '4px', '2px',

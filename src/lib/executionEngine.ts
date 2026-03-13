@@ -210,7 +210,7 @@ function executeSupersetBlock(block: SupersetBlock): ExecutionStep[] {
       steps.push(...rawSteps.filter(s => s.type !== 'rest'))
     })
     // Descanso solo al terminar el grupo completo
-    const lastExercise = block.exercises.at(-1)
+    const lastExercise = block.exercises[block.exercises.length - 1]
     const lastSet = lastExercise?.sets[setIdx]
     if (lastSet && 'restSeconds' in lastSet) {
       steps.push(restStep(lastSet.restSeconds as number, 'Descanso post-superserie'))

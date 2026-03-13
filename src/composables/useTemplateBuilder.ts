@@ -19,6 +19,17 @@ import type {
   ProgressionConfig, Difficulty, SaveStatus,
 } from '@/types/workout.types'
 
+/** Block shape used by template-builder UI (e.g. ExerciseBlock.vue) */
+export interface TemplateBlock {
+  id?: string
+  exId: string
+  group?: 'normal' | 'superset' | 'circuit'
+  sets?: number
+  reps?: string
+  rpe?: number
+  rest?: number
+}
+
 // ─── Default factories (no hardcoded divisions anywhere) ───────
 
 export function makeSet(order = 0): SetConfig {
@@ -290,6 +301,7 @@ export function useTemplateBuilder(initialId?: string) {
     const to = direction === 'up' ? idx - 1 : idx + 1
     if (to < 0 || to >= session.blocks.length) return
     const [item] = session.blocks.splice(idx, 1)
+    if (!item) return
     session.blocks.splice(to, 0, item)
     _reorderBlocks(session)
     markDirty()
@@ -371,7 +383,14 @@ export function useTemplateBuilder(initialId?: string) {
     const ex = _findExercise(sessionId, blockId, exerciseId)
     if (!ex || !ex.sets.length) return
     const last = ex.sets[ex.sets.length - 1]
-    ex.sets.push({ ...last, id: uuid(), order: ex.sets.length })
+    if (!last) return
+    ex.sets.push({
+      ...last,
+      id: uuid(),
+      order: ex.sets.length,
+      set_type: last.set_type,
+      intensity_metric: last.intensity_metric,
+    })
     markDirty()
   }
 

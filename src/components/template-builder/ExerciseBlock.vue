@@ -49,7 +49,7 @@
           <label class="text-[9px] font-bold uppercase tracking-wider text-text-muted">{{ p.label }}</label>
           <input
             :type="p.type"
-            :value="(block as Record<string, unknown>)[p.field]"
+            :value="(block as unknown as Record<string, unknown>)[p.field]"
             :min="p.min"
             :max="p.max"
             :step="p.step ?? 1"
@@ -101,7 +101,7 @@ defineEmits<{
   'toggle-group': [type: 'superset' | 'circuit']
 }>()
 
-const exercise = computed(() => EXERCISES.find((e) => e.id === props.block.exId))
+const exercise = computed(() => EXERCISES.find((e) => String(e.id) === String(props.block.exId)))
 
 const params = [
   { field: 'sets', label: 'Series',   type: 'number', min: 1,  max: 20,  width: 'w-14' },
