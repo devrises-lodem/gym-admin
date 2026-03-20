@@ -6,23 +6,23 @@
           <div class="mb-4">
             <FontAwesomeIcon icon="fa-solid fa-dumbbell fa-lg" />
           </div>
-          <h1 class="text-xl sm:text-2xl font-bold text-black mb-0">Recuperar Contraseña</h1>
+          <h1 class="text-xl sm:text-2xl font-bold text-black mb-0">{{ $t('auth.password_recovery') }}</h1>
         </div>
-        <p class="text-sm mt-2 text-gray-800">Recupera el acceso a tu cuenta</p>
+        <p class="text-sm mt-2 text-gray-800">{{ $t('auth.recover_password') }}</p>
       </div>
 
       <form @submit.prevent="handleRecovery" class="space-y-4 sm:space-y-5">
-        <p class="text-sm mb-2 mt-2 text-gray-800 text-center">Ingresa tu correo electrónico para recibir instrucciones de recuperación</p>
+        <p class="text-sm mb-2 mt-2 text-gray-800 text-center">{{ $t('auth.enter_email_for_recovery') }}</p>
         
         <div class="space-y-2">
-          <label for="email" class="text-sm font-bold text-gray-800">Correo electrónico</label>
+          <label for="email" class="text-sm font-bold text-gray-800">{{ $t('auth.email_address') }}</label>
           <div class="relative">
             <FontAwesomeIcon icon="fa-regular fa-envelope" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
             <input
               id="email"
               v-model="form.email"
               type="email"
-              placeholder="Enter your email"
+              :placeholder="$t('auth.enter_email')"
               required
               :class="[
                 'w-full pl-10 sm:pl-11 pr-3 py-2.5 sm:py-3 border rounded-lg text-sm transition-all duration-200 bg-indigo-50 text-gray-900',
@@ -39,12 +39,12 @@
           class="w-full bg-green-400 hover:bg-green-700 font-medium py-2.5 sm:py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center min-h-[44px]"
         >
           <FontAwesomeIcon icon="fa-solid fa-paper-plane" />
-          <span v-if="!isLoading" class="text-sm font-medium text-gray-900 px-1">Enviar Instrucciones</span>
+          <span v-if="!isLoading" class="text-sm font-medium text-gray-900 px-1">{{ $t('auth.send_recovery_email') }}</span>
           <div v-else class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
         </button>
 
         <div class="text-center text-sm py-2">
-          <RouterLink to="/login" class="text-sm text-indigo-200 hover:text-white transition-colors">← Volver al inicio de sesión</RouterLink>
+          <RouterLink to="/login" class="text-sm text-indigo-200 hover:text-white transition-colors">← {{ $t('auth.back_to_login') }}</RouterLink>
         </div>
       </form>
 

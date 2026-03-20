@@ -5,19 +5,19 @@
 
         <main class="flex-1 flex flex-col items-center">
           <div class="layout-content-container flex flex-col max-w-[1200px] w-full px-6 py-10">
-            <PageHeader title="Exercise Library" subtitle="Create, organize, and manage your personalized exercise database.">
+            <PageHeader :title="$t('exercises.exercise_library')" :subtitle="$t('exercises.create_organize_manage')">
               <template #actions>
                 <RouterLink to="/exercise-details/create"
                   class="flex items-center justify-center gap-2 rounded-xl h-12 px-6 bg-primary text-slate-900 text-base font-bold transition-transform hover:scale-[1.02]">
                   <span class="material-symbols-outlined">add_circle</span>
-                  <span>Upload New Exercise</span>
+                  <span>{{ $t('exercises.upload_new_exercise') }}</span>
                 </RouterLink>
               </template>
             </PageHeader>
 
             <div class="flex flex-col gap-6 mb-10">
               <SearchInput
-                placeholder="Search exercises by name, equipment, or target muscle..."
+                :placeholder="$t('exercises.search_exercises')"
                 bgClass="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
                 inputClass="text-sm text-slate-900 dark:text-white focus:ring-primary focus:border-primary dark:placeholder-slate-400"
                 paddingClass="p-4 pl-12"
@@ -35,7 +35,7 @@
                 <button
                   class="flex h-10 shrink-0 items-center justify-center gap-2 px-4 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-sm font-medium">
                   <span class="material-symbols-outlined text-sm">filter_list</span>
-                  Filter
+                  {{ $t('common.filter') }}
                 </button>
               </FilterPills>
             </div>
@@ -61,7 +61,7 @@
                     class="group flex flex-col items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl aspect-[4/5] hover:border-primary hover:bg-primary/5 transition-all cursor-pointer">
                     <span
                       class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-700 group-hover:text-primary mb-2">add_circle</span>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">New Exercise</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">{{ $t('exercises.new_exercise') }}</p>
                   </div>
                 </RouterLink>
               </div>
@@ -75,7 +75,7 @@
     <div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
       <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col">
         <div class="px-8 py-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
-          <h2 class="text-2xl font-black text-slate-900 dark:text-slate-100">Upload New Exercise</h2>
+          <h2 class="text-2xl font-black text-slate-900 dark:text-slate-100">{{ $t('exercises.upload_new_exercise') }}</h2>
           <button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
             <span class="material-symbols-outlined">close</span>
           </button>
@@ -83,55 +83,54 @@
         <div class="p-8 overflow-y-auto max-h-[70vh]">
           <form class="flex flex-col gap-6">
             <div class="flex flex-col gap-2">
-              <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Exercise Media</label>
+              <label class="text-sm font-bold text-slate-700 dark:text-slate-300">{{ $t('exercises.form.exercise_media') }}</label>
               <div
                 class="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl p-10 flex flex-col items-center justify-center gap-4 hover:border-primary transition-colors cursor-pointer bg-slate-50 dark:bg-slate-800/50">
                 <span class="material-symbols-outlined text-4xl text-primary">cloud_upload</span>
                 <div class="text-center">
-                  <p class="text-sm font-bold text-slate-900 dark:text-slate-100">Drag &amp; drop video or images</p>
-                  <p class="text-xs text-slate-500">MP4, MOV, JPG or PNG (Max 50MB)</p>
+                  <p class="text-sm font-bold text-slate-900 dark:text-slate-100">{{ $t('exercises.form.drag_drop_video_images') }}</p>
+                  <p class="text-xs text-slate-500">{{ $t('exercises.form.supported_formats') }}</p>
                 </div>
               </div>
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Name</label>
+                <label class="text-sm font-bold text-slate-700 dark:text-slate-300">{{ $t('exercises.form.name') }}</label>
                 <input
                   class="w-full rounded-lg border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white focus:ring-primary focus:border-primary"
-                  placeholder="e.g. Bulgarian Split Squat" type="text" />
+                  :placeholder="$t('exercises.form.placeholder_name')" type="text" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Category</label>
+                <label class="text-sm font-bold text-slate-700 dark:text-slate-300">{{ $t('exercises.form.category') }}</label>
                 <select
                   class="w-full rounded-lg border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white focus:ring-primary focus:border-primary">
-                  <option>Strength</option>
-                  <option>Cardio</option>
-                  <option>Flexibility</option>
-                  <option>Yoga</option>
+                  <option>{{ $t('exercises.categories.strength') }}</option>
+                  <option>{{ $t('exercises.categories.cardio') }}</option>
+                  <option>{{ $t('exercises.categories.flexibility') }}</option>
+                  <option>{{ $t('exercises.categories.yoga') }}</option>
                 </select>
               </div>
             </div>
             <div class="flex flex-col gap-2">
-              <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Target Muscle Groups</label>
+              <label class="text-sm font-bold text-slate-700 dark:text-slate-300">{{ $t('exercises.form.target_muscle_groups') }}</label>
               <input
                 class="w-full rounded-lg border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white focus:ring-primary focus:border-primary"
-                placeholder="e.g. Quadriceps, Glutes" type="text" />
+                :placeholder="$t('exercises.form.placeholder_muscles')" type="text" />
             </div>
             <div class="flex flex-col gap-2">
-              <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Description / Instructions</label>
+              <label class="text-sm font-bold text-slate-700 dark:text-slate-300">{{ $t('exercises.form.description_instructions') }}</label>
               <textarea
                 class="w-full rounded-lg border-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-white focus:ring-primary focus:border-primary"
-                placeholder="Briefly describe the form and movement..." rows="4"></textarea>
+                :placeholder="$t('exercises.form.briefly_describe')" rows="4"></textarea>
             </div>
           </form>
         </div>
         <div
           class="px-8 py-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3">
           <button
-            class="px-6 py-2 rounded-lg text-sm font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">Cancel</button>
+            class="px-6 py-2 rounded-lg text-sm font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">{{ $t('common.cancel') }}</button>
           <button
-            class="px-8 py-2 rounded-lg text-sm font-bold bg-primary text-slate-900 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">Save
-            Exercise</button>
+            class="px-8 py-2 rounded-lg text-sm font-bold bg-primary text-slate-900 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">{{ $t('exercises.upload_exercise') }}</button>
         </div>
       </div>
     </div>

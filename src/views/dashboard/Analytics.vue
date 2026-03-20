@@ -6,27 +6,27 @@
       :search-bg-class="'bg-slate-100 dark:bg-slate-800'"
       :search-icon-class="'text-slate-400'"
       :search-input-class="'text-sm rounded-full'"
-      search-placeholder="Search clients..."
+      :search-placeholder="$t('common.search') + ' ' + $t('navigation.clients').toLowerCase() + '...'"
       :nav-class="'hidden md:flex'"
-      :nav-items="['Dashboard', 'Clients', 'Programs', 'Revenue']"
+      :nav-items="[$t('navigation.dashboard'), $t('navigation.clients'), $t('navigation.programs'), $t('navigation.revenue')]"
       :profile-image="profileImage"
     />
     <main class="max-w-[1440px] mx-auto px-6 py-8">
       <PageHeader
-        title="Business Analytics"
-        subtitle="Reviewing your fitness empire's performance for Oct 2023."
+        :title="$t('dashboard.business_analytics')"
+        :subtitle="$t('dashboard.reviewing_performance', { month: 'Oct', year: '2023' })"
         titleClass="text-3xl"
       >
         <template #actions>
           <button
             class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors">
             <span class="material-symbols-outlined text-sm">calendar_today</span>
-            Last 30 Days
+            {{ $t('dashboard.last_30_days') }}
           </button>
           <button
             class="flex items-center gap-2 px-4 py-2 bg-primary text-background-dark rounded-lg text-sm font-bold hover:opacity-90 transition-opacity shadow-lg shadow-primary/20">
             <span class="material-symbols-outlined text-sm">download</span>
-            Export Report
+            {{ $t('dashboard.export_report') }}
           </button>
         </template>
       </PageHeader>
@@ -51,15 +51,15 @@
           <div
             class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
             <div class="flex items-center justify-between mb-6">
-              <h4 class="text-lg font-bold">Client Growth &amp; Retention</h4>
+              <h4 class="text-lg font-bold">{{ $t('dashboard.client_growth_retention') }}</h4>
               <div class="flex gap-4">
                 <div class="flex items-center gap-2">
                   <span class="w-3 h-3 rounded-full bg-primary"></span>
-                  <span class="text-xs text-slate-500">New Clients</span>
+                  <span class="text-xs text-slate-500">{{ $t('dashboard.new_clients') }}</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <span class="w-3 h-3 rounded-full bg-slate-300"></span>
-                  <span class="text-xs text-slate-500">Retention</span>
+                  <span class="text-xs text-slate-500">{{ $t('dashboard.retention') }}</span>
                 </div>
               </div>
             </div>
@@ -84,10 +84,10 @@
           </div>
 
           <!-- Engagement Leaderboard -->
-          <SectionCard title="Engagement Score Leaderboard" headerClass="p-6 pb-0 mb-6"
+          <SectionCard :title="$t('dashboard.engagement_leaderboard')" headerClass="p-6 pb-0 mb-6"
             contentClass="p-6 pt-0" borderClass="border-slate-200 dark:border-slate-800">
             <template #header-actions>
-              <button class="text-primary text-sm font-semibold hover:underline">View All</button>
+              <button class="text-primary text-sm font-semibold hover:underline">{{ $t('dashboard.view_all') }}</button>
             </template>
             <div class="space-y-4">
               <div v-for="client in leaderboard" :key="client.name"
@@ -116,7 +116,7 @@
           <!-- Muscle Group Focus (unique chart, kept inline) -->
           <div
             class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <h4 class="text-lg font-bold mb-6">Muscle Group Focus</h4>
+            <h4 class="text-lg font-bold mb-6">{{ $t('dashboard.muscle_group_focus') }}</h4>
             <div class="flex justify-center py-6 relative">
               <div
                 class="w-48 h-48 rounded-full border-4 border-slate-100 dark:border-slate-800 flex items-center justify-center">
@@ -130,7 +130,7 @@
                 </div>
                 <div class="text-center z-10">
                   <span class="text-3xl font-black block">Legs</span>
-                  <span class="text-xs text-slate-500">45% Priority</span>
+                  <span class="text-xs text-slate-500">{{ $t('dashboard.priority') }}</span>
                 </div>
               </div>
             </div>
@@ -143,7 +143,7 @@
           </div>
 
           <!-- Recent Milestones -->
-          <SectionCard title="Recent Milestones" headerClass="p-6 pb-0 mb-6"
+          <SectionCard :title="$t('dashboard.recent_milestones')" headerClass="p-6 pb-0 mb-6"
             contentClass="p-6 pt-0" borderClass="border-slate-200 dark:border-slate-800">
             <div class="space-y-6">
               <ActivityItem

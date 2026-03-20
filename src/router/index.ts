@@ -2,19 +2,20 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import DashboardLayout from '@/views/DashboardLayout.vue'
 
 // Dashboard (FMS) views
-import TrainerDashboard1 from '@/views/trainer/TrainerDashboard1.vue' 
-import TrainerDashboard2 from '@/views/trainer/TrainerDashboard2.vue' 
-import TrainerDashboard3 from '@/views/trainer/TrainerDashboard3.vue' 
-import ClientProfile1 from '@/views/client/ClientProfile1.vue' 
-import ClientProfile2 from '@/views/client/ClientProfile2.vue' 
-import ClientProgress from '@/views/client/ClientProgress.vue' 
-import ClientSchedule from '@/views/client/ClientSchedule.vue' 
-import MealPlanCreator from '@/views/meal/MealPlanCreator.vue' 
-import ExerciseLibrary from '@/views/exercise/ExerciseLibrary.vue' 
-import WorkoutBuilder from '@/views/workout/WorkoutBuilder.vue' 
-import ClientChat from '@/views/client/ClientChat.vue' 
+import TrainerDashboard1 from '@/views/trainer/TrainerDashboard1.vue'
+import TrainerDashboard2 from '@/views/trainer/TrainerDashboard2.vue'
+import TrainerDashboard3 from '@/views/trainer/TrainerDashboard3.vue'
+import ClientProfile1 from '@/views/client/ClientProfile1.vue'
+import ClientProfile2 from '@/views/client/ClientProfile2.vue'
+import ClientProgress from '@/views/client/ClientProgress.vue'
+import ClientSchedule from '@/views/client/ClientSchedule.vue'
+import MealPlanCreator from '@/views/meal/MealPlanCreator.vue'
+import ExerciseLibrary from '@/views/exercise/ExerciseLibrary.vue'
+import WorkoutBuilder from '@/views/workout/WorkoutBuilder.vue'
+import ClientChat from '@/views/client/ClientChat.vue'
 import Analytics from '@/views/dashboard/Analytics.vue'
 import ExerciseDetail from '@/views/exercise/ExerciseDetail.vue'
+
 
 
 export interface RouteConfig {
@@ -25,7 +26,7 @@ export interface RouteConfig {
 }
 
 export const appRoutes: RouteConfig[] = [
-  
+
   { path: '/', label: 'Nutrition Dashboard', icon: 'nutrition', component: TrainerDashboard1 },
   { path: '/trainer-dashboard', label: 'Trainer Dashboard', icon: 'dashboard', component: TrainerDashboard2 },
   { path: '/client-john', label: 'Client - John Doe', icon: 'person', component: TrainerDashboard3 },

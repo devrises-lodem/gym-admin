@@ -6,19 +6,19 @@
           <div class="mb-4">
             <FontAwesomeIcon icon="fa-solid fa-dumbbell fa-lg" />
           </div>
-          <h1 class="text-xl sm:text-2xl font-bold text-black mb-0">Crear Cuenta</h1>
+          <h1 class="text-xl sm:text-2xl font-bold text-black mb-0">{{ $t('auth.create_account') }}</h1>
         </div>
-        <p class="text-sm mt-2 text-gray-800">Regístrate para gestionar el gimnasio</p>
+        <p class="text-sm mt-2 text-gray-800">{{ $t('auth.signup') }}</p>
       </div>
 
       <div class="flex flex-col sm:flex-row gap-3 mb-6">
         <button type="button" class="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-black bg-green-400 hover:bg-green-700">
           <FontAwesomeIcon icon="fa-brands fa-google" />
-          <span class="text-sm font-medium text-black">Google</span>
+          <span class="text-sm font-medium text-black">{{ $t('auth.sign_in_with_google') }}</span>
         </button>
         <button type="button" class="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-black bg-green-400 hover:bg-green-700">
           <FontAwesomeIcon icon="fa-brands fa-facebook" />
-          <span class="text-sm font-medium text-black">Facebook</span>
+          <span class="text-sm font-medium text-black">{{ $t('auth.sign_in_with_facebook') }}</span>
         </button>
       </div>
 
@@ -29,17 +29,17 @@
       </div>
 
       <form @submit.prevent="handleRegister" class="space-y-4 sm:space-y-5">
-        <p class="text-sm mb-2 mt-2 text-gray-800 text-center">Crea tu cuenta de administrador</p>
+        <p class="text-sm mb-2 mt-2 text-gray-800 text-center">{{ $t('auth.enter_credentials') }}</p>
 
         <div class="space-y-2">
-          <label for="name" class="text-sm font-bold text-gray-800">Nombre completo</label>
+          <label for="name" class="text-sm font-bold text-gray-800">{{ $t('auth.full_name') }}</label>
           <div class="relative">
             <FontAwesomeIcon icon="fa-regular fa-user" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
             <input
               id="name"
               v-model="form.name"
               type="text"
-              placeholder="Enter your full name"
+              :placeholder="$t('auth.enter_email')"
               required
               :class="[
                 'w-full pl-10 sm:pl-11 pr-3 py-2.5 sm:py-3 border rounded-lg text-sm transition-all duration-200 bg-indigo-50 text-gray-900',
@@ -51,7 +51,7 @@
         </div>
 
         <div class="space-y-2">
-          <label for="email" class="text-sm font-bold text-gray-800">Correo electrónico</label>
+          <label for="email" class="text-sm font-bold text-gray-800">{{ $t('auth.email_address') }}</label>
           <div class="relative">
             <FontAwesomeIcon icon="fa-regular fa-envelope" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
             <input
@@ -70,7 +70,7 @@
         </div>
 
         <div class="space-y-2">
-          <label for="password" class="text-sm font-bold text-gray-800">Contraseña</label>
+          <label for="password" class="text-sm font-bold text-gray-800">{{ $t('auth.password') }}</label>
           <div class="relative">
             <FontAwesomeIcon icon="fa-solid fa-lock" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
             <input
@@ -97,7 +97,7 @@
         </div>
 
         <div class="space-y-2">
-          <label for="confirmPassword" class="text-sm font-bold text-gray-800">Confirmar contraseña</label>
+          <label for="confirmPassword" class="text-sm font-bold text-gray-800">{{ $t('auth.confirm_password') }}</label>
           <div class="relative">
             <FontAwesomeIcon icon="fa-solid fa-lock" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
             <input
@@ -145,13 +145,13 @@
           class="w-full bg-green-400 hover:bg-green-700 font-medium py-2.5 sm:py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center min-h-[44px]"
         >
           <FontAwesomeIcon icon="fa-solid fa-user-plus" />
-          <span v-if="!isLoading" class="text-sm font-medium text-gray-900 px-1">Registrarse</span>
+          <span v-if="!isLoading" class="text-sm font-medium text-gray-900 px-1">{{ $t('auth.sign_up') }}</span>
           <div v-else class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
         </button>
       </form>
 
       <p class="text-center text-sm text-gray-800 m-0 mt-5">
-        ¿Ya tienes una cuenta? <RouterLink to="/login" class="hover:text-white font-medium transition-colors">Inicia sesión aquí</RouterLink>
+            {{ $t('auth.already_have_account') }} <RouterLink to="/login" class="hover:text-white font-medium transition-colors">{{ $t('auth.login_here') }}</RouterLink>
       </p>
     </div>
   </div>
@@ -194,7 +194,7 @@ const validateForm = () => {
   if (!form.name) {
     errors.name = 'Name is required'
   } else if (form.name.length < 2) {
-    errors.name = 'Name must be at least 2 characters'
+    errors.name = 'Name is required'
   }
 
   if (!form.email) {

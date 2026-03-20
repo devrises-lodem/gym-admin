@@ -2,7 +2,7 @@
   <div class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
     <div class="relative flex h-screen w-full flex-col overflow-hidden">
 
-      <AppHeader 
+      <AppHeader
         title="FitPro Manager"
         header-class="border-primary/10 bg-white dark:bg-background-dark"
         :show-search="true"

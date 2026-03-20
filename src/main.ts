@@ -18,20 +18,15 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 
 library.add(fas, far, fab)
 
+import en from './locales/en/en.json'
+import es from './locales/es/es.json'
+
 const i18n = createI18n({
   locale: 'es',
   fallbackLocale: 'en',
   messages: {
-    en: {
-      message: {
-        hello: 'hello world'
-      }
-    },
-    ja: {
-      message: {
-        hello: 'こんにちは、世界'
-      }
-    }
+    en,
+    es
   }
 })
 

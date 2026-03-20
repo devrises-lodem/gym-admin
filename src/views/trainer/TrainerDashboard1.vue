@@ -6,7 +6,8 @@
         <header class="flex flex-wrap justify-between items-center gap-4 mb-10">
           <div class="flex items-center gap-6">
             <div class="flex flex-col gap-1">
-              <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Nutrition Tracking</h1>
+              <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">
+                {{ $t('dashboard.nutrition_tracking') }}</h1>
               <div class="flex items-center gap-3 mt-1">
                 <div
                   class="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-lg">
@@ -16,7 +17,7 @@
                   <span class="material-symbols-outlined text-slate-400 text-sm">keyboard_arrow_down</span>
                 </div>
                 <span class="text-slate-400 text-sm">•</span>
-                <p class="text-slate-500 dark:text-slate-400 text-sm">Target: Weight Loss (Phase 1)</p>
+                <p class="text-slate-500 dark:text-slate-400 text-sm">{{ $t('common.target') }}: Weight Loss (Phase 1)</p>
               </div>
             </div>
           </div>
@@ -24,12 +25,12 @@
             <button
               class="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold rounded-lg flex items-center gap-2 hover:bg-slate-50 transition-colors">
               <span class="material-symbols-outlined">print</span>
-              <span>Export PDF</span>
+              <span>{{ $t('dashboard.export_pdf') }}</span>
             </button>
             <button
               class="px-5 py-2.5 bg-primary/20 text-slate-900 dark:text-primary font-bold rounded-lg flex items-center gap-2 hover:bg-primary/30 transition-colors border border-primary/20">
               <span class="material-symbols-outlined">restaurant_menu</span>
-              <span>Meal Template</span>
+              <span>{{ $t('dashboard.meal_template') }}</span>
             </button>
           </div>
         </header>
@@ -57,7 +58,7 @@
             <div
               class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <SearchInput
-                placeholder="Search food database or templates..."
+                :placeholder="$t('dashboard.search_food')"
                 bgClass="bg-slate-50 dark:bg-slate-800"
                 paddingClass="pl-12 pr-4 py-3"
                 inputClass="text-sm focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-900 transition-all"

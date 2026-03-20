@@ -6,19 +6,19 @@
           <div class="mb-4">
             <FontAwesomeIcon icon="fa-solid fa-dumbbell fa-lg" />
           </div>
-          <h1 class="text-xl sm:text-2xl font-bold text-black mb-0">Bienvenido, Admin</h1>
+          <h1 class="text-xl sm:text-2xl font-bold text-black mb-0">{{ $t('auth.welcome_admin') }}</h1>
         </div>
-        <p class="text-sm mt-2 text-gray-800">Inicia sesión en tu cuenta</p>
+        <p class="text-sm mt-2 text-gray-800">{{ $t('auth.login_to_account') }}</p>
       </div>
 
       <div class="flex flex-col sm:flex-row gap-3 mb-6">
         <button type="button" class="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-black bg-green-400 hover:bg-green-700">
           <FontAwesomeIcon icon="fa-brands fa-google" />
-          <span class="text-sm font-medium text-black">Google</span>
+          <span class="text-sm font-medium text-black">{{ $t('auth.sign_in_with_google') }}</span>
         </button>
         <button type="button" class="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-black bg-green-400 hover:bg-green-700">
           <FontAwesomeIcon icon="fa-brands fa-facebook" />
-          <span class="text-sm font-medium text-black">Facebook</span>
+          <span class="text-sm font-medium text-black">{{ $t('auth.sign_in_with_facebook') }}</span>
         </button>
       </div>
 
@@ -29,16 +29,16 @@
       </div>
 
       <form @submit.prevent="handleLogin" class="space-y-4 sm:space-y-5">
-        <p class="text-sm mb-2 mt-2 text-gray-800 text-center">Ingresa tus credenciales para gestionar el gimnasio</p>
+        <p class="text-sm mb-2 mt-2 text-gray-800 text-center">{{ $t('auth.enter_credentials') }}</p>
         <div class="space-y-2">
-          <label for="email" class="text-sm font-bold text-gray-800">Correo electrónico</label>
+          <label for="email" class="text-sm font-bold text-gray-800">{{ $t('auth.email_address') }}</label>
           <div class="relative">
             <FontAwesomeIcon icon="fa-regular fa-envelope" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
             <input
               id="email"
               v-model="form.email"
               type="email"
-              placeholder="Enter your email"              
+              :placeholder="$t('auth.enter_email')"              
               :class="[
                 'w-full pl-10 sm:pl-11 pr-3 py-2.5 sm:py-3 border rounded-lg text-sm transition-all duration-200 bg-indigo-50 text-gray-900',
                 errors.email ? 'border-red-500' : 'border-indigo-400 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-300 focus:ring-opacity-20'
@@ -49,7 +49,7 @@
         </div>
 
         <div class="space-y-2">
-          <label for="password" class="text-sm font-bold text-gray-800">Contraseña</label>
+          <label for="password" class="text-sm font-bold text-gray-800">{{ $t('auth.password') }}</label>
           <div class="relative">
             <FontAwesomeIcon icon="fa-solid fa-lock" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
             <input
@@ -80,17 +80,17 @@
           class="w-full bg-green-400 hover:bg-green-700 font-medium py-2.5 sm:py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center min-h-[44px]"
         >
           <FontAwesomeIcon icon="fa-solid fa-arrow-right-to-bracket" />
-          <span v-if="!isLoading" class="text-sm font-medium text-gray-900 px-1">Iniciar Sesión</span>
+          <span v-if="!isLoading" class="text-sm font-medium text-gray-900 px-1">{{ $t('auth.sign_in') }}</span>
           <div v-else class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
         </button>
 
         <div class="text-center text-sm py-2">
-          <RouterLink to="/recovery-password" class="text-sm text-indigo-200 hover:text-white transition-colors">¿Olvidaste tu contraseña?</RouterLink>
+          <RouterLink to="/recovery-password" class="text-sm text-indigo-200 hover:text-white transition-colors">{{ $t('auth.forgot_password') }}</RouterLink>
         </div>
       </form>
 
       <p class="text-center text-sm text-gray-800 m-0 mt-5">
-        ¿No tienes una cuenta? <RouterLink to="/register" class="hover:text-white font-medium transition-colors">Registrate aquí</RouterLink>
+        {{ $t('auth.no_account') }} <RouterLink to="/register" class="hover:text-white font-medium transition-colors">{{ $t('auth.register_here') }}</RouterLink>
       </p>
     </div>
   </div>
